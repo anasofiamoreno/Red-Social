@@ -1,42 +1,25 @@
 import { pages } from './lib/templates.js';
 import { sendSingUp, sendLogin, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase } from './lib/data.js';
+import { obj_main, fnPageSignUp } from './nodom/nodom.js';
 
-let user = [];
-export const obj_main = document.createElement('main');
+
 document.body.appendChild(obj_main);
 let userState = firebase.auth().currentUser;
 
 document.getElementById('idLogOut').addEventListener('click', fnLogOut);
 // Autenticacion de Usuario al Entrar a la App o al cambiar de estado
-firebase.auth().onAuthStateChanged( function(user) { 
-  if(user){
+firebase.auth().onAuthStateChanged(function (user) { 
+  if(user) {
     router();
   }
   else{
-    
     router();
   }
 });
 
-/*console.log(window.location.pathname);
-if(window.location.pathname != "/"){
-  const origin_path = window.location.pathname;
-  console.log("y");
-}
-else{
-  let origin_path = "s";
-  console.log("n");
-}
-
-
-console.log(origin_path);*/
-
-
-
-//const main = document.getElementById('main');
-
 async function fnSignUp(e) {
   e.preventDefault();
+  let user = [];
   const signUpPassword1 = document.getElementById('sign_up_password1').value;
   const signUpPassword2 = document.getElementById('sign_up_password2').value;
   const signUpEmail = document.getElementById('sign_up_email').value;
@@ -91,10 +74,6 @@ async function fnLogOut() {
   } catch (error) { console.log('error logout'); console.log(error.message); }
 }
 
-export function fnPageSignUp() {
-  window.history.pushState({}, '', pages.singUp.path);
-  router();
-}
 
 function fnPagesLogin() {
   window.history.pushState({}, '', pages.login.path);
@@ -107,18 +86,18 @@ async function router() {
   switch (window.location.pathname) {
     case '/':
       if (userState) {
-        const info = await readfirebase(userState.uid, "name");
-        const img = await readfirebase(userState.uid, "img");
+        const info = await readfirebase(userState.uid, 'name');
+        const img = await readfirebase(userState.uid, 'img');
         obj_main.innerHTML = pages.home2.template;
-        document.querySelector(".profileimg").src = img;
-        document.querySelector(".subprofileimg").src = img;
-        document.querySelector(".subnameuser").innerHTML = info;
-        document.querySelector(".nameUser").innerHTML = info;
+        document.querySelector('.profileimg').src = img;
+        document.querySelector('.subprofileimg').src = img;
+        document.querySelector('.subnameuser').innerHTML = info;
+        document.querySelector('.nameUser').innerHTML = info;
         
       } else {
         obj_main.innerHTML = pages.home.template;
         const obj_boton_singup = document.getElementById('id_home_text_registro');
-        obj_boton_singup.addEventListener('click', fnPageSignUp);
+        obj_boton_singup.addEventListener('click', () => {fnPageSignUp(); router();  } );
         document.getElementById('id_home_btn_login').addEventListener('click', fnPagesLogin);
         document.getElementById('id_home_btn_login_google').addEventListener('click', fnLoginGoogle);
       }
@@ -141,3 +120,6 @@ async function router() {
       break;
   }
 }
+
+export {fnPageSignUp, obj_main}
+

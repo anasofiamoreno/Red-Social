@@ -30,7 +30,7 @@ export const pages = {
         </section>
         `,
   },
-  home2:{
+  home2: {
     path: '/',
     template: `<section class="dateUserHome">
                  <h1 class="tittle_home2"> Bienvenido a Social </h1>

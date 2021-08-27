@@ -29,7 +29,21 @@
     "jest/valid-expect": "warn",
     "no-use-before-define": ["error", {"functions": false, "classes": false}],
     "no-unused-vars":"warn",
-    "no-case-declarations":"warn"
+    "no-case-declarations":"warn",
+    "no-useless-escape": 0,
+    "camelcase":"warn",
+    "no-unneeded-ternary":"warn",
+    "no-trailing-spaces": 0,
+    "no-confusing-arrow": "warn",
+    "no-console": 0,
+    "padded-blocks": 0,
+    "prefer-arrow-callba": 0,
+    "keyword-spacing": 0,
+    "prefer-arrow-callback": 0,
+    "prefer-template": 0,
+    "brace-style": 0,
+    "consistent-return": "warn",
+    "arrow-body-style": 0
   
   }
 }

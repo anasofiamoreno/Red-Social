@@ -1,7 +1,7 @@
 export function sendSingUp(email, password) {
   const message = firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-     
+
       const user = userCredential.user;
       return user;
     })
@@ -39,41 +39,42 @@ export function sendLoginGoogle(provider) {
 }
 
 export function writeFareBase(idUser, type, data) {
-  switch (type){
+  switch (type) {
     case 'name': firebase.firestore().collection(idUser).doc('userInfo').set({
       name: data,
     })
       .then(() => {
-        console.log("Document successfully written!");
+        console.log('Document successfully written!');
       })
       .catch((error) => {
-        console.error("Error writing document: ", error);
+        console.error('Error writing document: ', error);
       });
       break;
-    default:'Función mal definida';
+    default: return 'Función mal definida';
+  }
 }
-}
 
-export function readfirebase(idUser, type){
+export function readfirebase(idUser, type) {
 
-  switch(type){
+  switch(type) {
 
-    case "name":
-      return firebase.firestore().collection(idUser).doc("userInfo").get()
+    case 'name':
+      return firebase.firestore().collection(idUser).doc('userInfo').get()
         .then((doc) => {
           return doc.data().name;
         })
         .catch((error) => {
-          console.log("Error getting document:", error.message);
+          console.log('Error getting document:', error.message);
         });
-    case "city":
+    case 'city':
       break;
-    case "img":
-      return firebase.storage().ref(idUser + '/profileimg.jpg').getDownloadURL().then(function(url) {
-       return url;
-      }).catch(function(error) {
+    case 'img':
+      return firebase.storage().ref(idUser + '/profileimg.jpg').getDownloadURL().then(function (url) {
+        return url;
+      })
+        .catch(function (error) {
         // Handle any errors
-      });
+        });
 
     default:
   }
