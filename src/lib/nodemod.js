@@ -2,7 +2,8 @@ import { pages } from './templates.js';
 import { sendLogin, sendLoginGoogle } from './data.js';
 
 export const objMain = document.createElement('main');
-document.body.appendChild(objMain);
+//document.body.main.appendChild(objMain);
+document.getElementById("main").appendChild(objMain);
 
 export function fnPageSignUp() {
   window.history.pushState({}, '', pages.singUp.path);
