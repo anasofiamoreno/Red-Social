@@ -171,20 +171,29 @@ export const pages = {
   },
   post: {
     path: '/post',
-    template: `
+    template: function(idPost) {
+     console.log(idPost);
+      let result = 
+      `
    
     <div class="box_post">
-      <div class="box_post_img"><img class="subprofileimg"src=""><p class="subnameuser"></p><p class="date_posted"></p></div>
-      <div class="posted"><p>Esta es una Publicacion</p></div>
+      <div class="box_post_img"><img class="subprofileimg"src="" id="img`+idPost+`"><div style="display:flex; flex-direction:column;"><p class="subnameuser" id="name`+idPost+`"></p><p class="date_posted" id="date`+idPost+`"></p></div></div>
+      <div class="posted">
+         <p class="tex_post1" id="post`+idPost+`"></p>
+         <div id ="comment`+idPost+`"></div>
+      </div>
       <div class="box_post_btn">
-          <img class="menu_btn_text" src="./img/likeicon.png">
+          <div style="display:flex; flex-direction:row;"><img class="menu_btn_text" src="./img/likeicon.png"><p id ="like`+idPost+`"></p></div>
           <img class="menu_btn_text" src="./img/shericon2.png">
           <img class="menu_btn_text" src="./img/coment.png">
       </div>
     
     </div>
 
-    `,
-
+    `;
+  
+  return result 
+  }
+  
   },
 };

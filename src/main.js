@@ -124,10 +124,8 @@ async function router() {
         let work = await readfirebase(userState.uid, 'work');
         let img = await readfirebase(userState.uid, 'img');
         objMain.innerHTML = pages.profile.template;
-        await fnPrintPosted();
+        await fnPrintPosted(img, name);
         document.querySelector('.profileimg').src = img;
-        document.querySelector('.subprofileimg').src = img;
-        document.querySelector('.subnameuser').innerHTML = name;
         document.querySelector('.nameUser').innerHTML = name;
         document.querySelector('.nameUserProfile').innerHTML = name;
         document.querySelector('.cityUser').innerHTML = city;
@@ -201,19 +199,39 @@ async function router() {
   }
 }
 
-async function fnPrintPosted(){
-  let  insert = document.querySelector('.all_profile_post');
-  
-  
+async function fnPrintPosted(img, name) {
+  const insert = document.querySelector('.all_profile_post');
   const posted = await fillposted(userState.uid);
   const numpost = Object.keys(posted);
-  
-
-  numpost.map(function (x) {
-    insert.innerHTML = insert.innerHTML + pages.post.template; 
-    console.log(posted[x].post);
-    console.log(posted[x].likes);
-    console.log(posted[x].comments);
-  } );
-
+  const title = document.createElement('p');
+  title.classList.add('text_post2');
+  numpost.map((x) => {
+    insert.innerHTML += pages.post.template(x);
+    title.innerHTML = 'Publicación: ';
+    document.getElementById('post' + x).innerHTML = title.outerHTML + posted[x].post;
+    document.getElementById('img' + x).src = img;
+    document.getElementById('name' + x).innerHTML = name;
+    document.getElementById('date' + x).innerHTML = x;
+    document.getElementById('like' + x).innerHTML = posted[x].likes;
+    const Listcomments = Object.keys(posted[x].comments);
+    Listcomments.map((item)=>{
+      const imgComment = document.createElement('img');
+      const divComment =document.createElement('div');
+      const divCommentin=document.createElement('div');
+      title.innerHTML = 'Comentario:'
+      divCommentin.style="display:flex; flex-direction:column;";
+      divComment.classList.add('box_comment');
+      imgComment.classList.add('subprofileimg4');
+      readfirebase(posted[x].comments[item].user, 'img')
+      .then((imgreturn) => { 
+        imgComment.src = imgreturn;
+        divCommentin.innerHTML = title.outerHTML + posted[x].comments[item].comment;
+        divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
+        document.getElementById('comment' + x).innerHTML +=divComment.outerHTML;
+        console.log(posted[x].comments);
+      });
+      
+    });
+    
+  });
 }
