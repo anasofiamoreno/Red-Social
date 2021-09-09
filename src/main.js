@@ -3,7 +3,7 @@ import {
   objMain, fnPageSignUp, fnPagesLogin, fnLogin, fnAuthGoogle,
 } from './lib/nodemod.js';
 import {
-  sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillposted,
+  sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillposted, fillPostedAll,
 } from './lib/data.js';
 
 let users = [];
@@ -86,6 +86,7 @@ async function router() {
         const info = await readfirebase(userState.uid, 'name');
         const img = await readfirebase(userState.uid, 'img');
         objMain.innerHTML = pages.home2.template;
+        await fnPrintPosted(img, name, 0, "all_user");
         document.querySelector('.profileimg').src = img;
         document.querySelector('.subprofileimg').src = img;
         document.querySelector('.subnameuser').innerHTML = info;
@@ -199,20 +200,34 @@ async function router() {
   }
 }
 
-async function fnPrintPosted(img, name) {
+async function fnPrintPosted(img, name, user, type) {
+
   const insert = document.querySelector('.all_profile_post');
+
+
+  if (type == 'all_user'){
+    fillPostedAll();
+
+  }else{
+ 
+  
   const posted = await fillposted(userState.uid);
   const numpost = Object.keys(posted);
   const title = document.createElement('p');
   title.classList.add('text_post2');
+  
+ 
   numpost.map((x) => {
+
     insert.innerHTML += pages.post.template(x);
     title.innerHTML = 'Publicación: ';
     document.getElementById('post' + x).innerHTML = title.outerHTML + posted[x].post;
     document.getElementById('img' + x).src = img;
     document.getElementById('name' + x).innerHTML = name;
     document.getElementById('date' + x).innerHTML = x;
-    document.getElementById('like' + x).innerHTML = posted[x].likes;
+    document.getElementById('contlike' + x).innerHTML = posted[x].likes;
+    
+    
     const Listcomments = Object.keys(posted[x].comments);
     Listcomments.map((item)=>{
       const imgComment = document.createElement('img');
@@ -228,10 +243,40 @@ async function fnPrintPosted(img, name) {
         divCommentin.innerHTML = title.outerHTML + posted[x].comments[item].comment;
         divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
         document.getElementById('comment' + x).innerHTML +=divComment.outerHTML;
-        console.log(posted[x].comments);
       });
       
     });
-    
   });
+
+  
+ const eventLike = document.querySelectorAll('img.evente_like');
+ console.log(eventLike);
+ eventLike.forEach(element => {
+   console.log(element.id);
+   element.addEventListener('click', () => {
+    fnMakeLike()
+    });
+   
+ });
+
+  }
 }
+
+window.fnMakeAComment = fnMakeAComment;
+function fnMakeAComment(idForComment){
+  document.querySelector('.make_post_on_profile').innerHTML = pages.makecomment.template;
+  document.querySelector('.box_make_comment').style.display = "flex";
+  document.querySelector('.make_post_on_profile').style.display = "flex";
+  document.querySelector('.box_make_comment').addEventListener('submit',(e) =>{
+      e.preventDefault();
+      const comment =document.querySelector(".text_post").value;
+      writeFareBase(userState.uid, 'comment', comment);
+    });
+
+  //writeFareBase(idUser, type, data);
+}
+
+function fnMakeLike(user){
+
+}
+

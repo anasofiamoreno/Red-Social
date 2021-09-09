@@ -58,7 +58,7 @@ export function writeFareBase(idUser, type, data) {
       break;
     case 'post':
       const date = new Date();
-      const datePost = date.getDate()+'-'+date.getMonth()+'-'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+      const datePost = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
 
        
       firebase.firestore().collection(idUser).doc('userPost').update({
@@ -69,6 +69,10 @@ export function writeFareBase(idUser, type, data) {
         }
       });
       break;
+    case 'comment':
+      console.log(data);
+      break;
+
     default: message = 'Función mal definida';
 }
   return message;
@@ -96,7 +100,6 @@ export function readfirebase(idUser, type) {
         });
     case 'img':
       return firebase.storage().ref(idUser + '/profileimg.jpg').getDownloadURL().then((url) => {
-        console.log(url);
         return url;
       })
         .catch((error) => {
@@ -115,5 +118,12 @@ export function fillposted(user){
   });
 
   return posted
+
+}
+
+
+export function fillPostedAll(){
+
+  
 
 }

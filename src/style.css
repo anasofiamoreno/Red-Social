@@ -373,8 +373,16 @@ input:-webkit-autofill:active {
   padding: 1em;
   height: 50%;
   width: 80%;
+}
 
-
+.comment_publish{
+  margin-left: 1em;
+  margin-right: 1em;
+  background: rgba(20, 33, 61, 0.9);
+  border-radius: 5px;
+  padding: 1em;
+  height: 50%;
+  width: 80%;
 }
 
 .posted{
@@ -402,6 +410,17 @@ input:-webkit-autofill:active {
   justify-content: space-between;
   margin-top: .5em;
 }
+
+.box_comment_btn_publish{
+  width: 95%;
+  display: flex;
+  flex-direction: row;
+  align-items:center;
+  justify-content: center;
+  margin-top: .5em;
+}
+
+
 .logout{
   display:none;
 }
@@ -544,6 +563,17 @@ color: rgba(20, 33, 61, 0.7);
   margin-top: 2em;
 }
 
+.box_make_comment {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 85%;
+  height: 75%;
+  margin-top: 2em;
+}
+
 .text_post{
   height: 80%;
   width: 90%;
@@ -592,6 +622,11 @@ flex-direction: row;
 
 .footertask p{
   padding: 0em 2em 0em 2em;
+}
+
+#publish_comment_profile{
+  width: 100%;
+  padding: 0em 3em 0em 3em;
 }
 
 

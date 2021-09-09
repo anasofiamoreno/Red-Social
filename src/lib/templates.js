@@ -45,6 +45,9 @@ export const pages = {
                  <div><input class="texttopost" type="text" placeholder="Escribe aqui tu publicacion"></div>
                  </div>
                </section>  
+
+               <section class="all_profile_post1">
+               </section>
                  `,
   },
   singUp: {
@@ -172,7 +175,8 @@ export const pages = {
   post: {
     path: '/post',
     template: function(idPost) {
-     console.log(idPost);
+    
+
       let result = 
       `
    
@@ -183,9 +187,9 @@ export const pages = {
          <div id ="comment`+idPost+`"></div>
       </div>
       <div class="box_post_btn">
-          <div style="display:flex; flex-direction:row;"><img class="menu_btn_text" src="./img/likeicon.png"><p id ="like`+idPost+`"></p></div>
-          <img class="menu_btn_text" src="./img/shericon2.png">
-          <img class="menu_btn_text" src="./img/coment.png">
+          <div style="display:flex; flex-direction:row;"><img id ="like`+idPost+`" type="button" class="menu_btn_text evente_like" src="./img/likeicon.png"><p id ="contlike`+idPost+`"></p></div>
+          <img class="menu_btn_text" id="share_post`+idPost+`" src="./img/shericon2.png">
+          <img class="menu_btn_text" id="make_comment_on_post`+idPost+`" onClick="fnMakeAComment('`+idPost+`')" src="./img/coment.png">
       </div>
     
     </div>
@@ -195,5 +199,23 @@ export const pages = {
   return result 
   }
   
+  },
+  makecomment: {
+    path: '/makecomment',
+    template: `
+  
+    <form class="box_make_comment">
+      <div class="comment_publish">
+        <textarea class='text_post' placeholder='Realiza aqui tu comentario' type ='text'></textarea>
+        <div class="box_comment_btn_publish">
+          <div>
+            <button type="submit" id="publish_comment_profile">Comentar</button>
+          </div>
+        </div>  
+      </div> 
+    </form>
+   
+    `,
+
   },
 };
