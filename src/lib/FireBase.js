@@ -1,3 +1,5 @@
+
+
 export function sendSingUp(email, password) {
   const message = firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
@@ -42,6 +44,15 @@ export function writeFareBase(idUser, type, data) {
   switch (type) {
     case 'namefirst': firebase.firestore().collection(idUser).doc('userInfo').set({
       name: data,
+      city: '',
+      work: '',
+
+    });
+    firebase.firestore().collection(idUser).doc("userPost").set({
+      post: "",
+    });
+    firebase.firestore().collection('userList').doc(idUser).set({
+      userID: idUser,
     });
       break;
     case 'name': return firebase.firestore().collection(idUser).doc('userInfo').update({
@@ -69,6 +80,11 @@ export function writeFareBase(idUser, type, data) {
         }
       });
       break;
+    case 'deletepost':
+      firebase.firestore().collection(idUser).doc('userPost').update({
+        [data] : firebase.firestore.FieldValue.delete(),
+      })
+      break;
     case 'comment':
       console.log(data);
       break;
@@ -78,7 +94,7 @@ export function writeFareBase(idUser, type, data) {
   return message;
 }
 
-export function readfirebase(idUser, type) {
+export function readfirebase(idUser, type, data) {
   switch (type) {
     case 'name':
       return firebase.firestore().collection(idUser).doc('userInfo').get()
@@ -105,25 +121,55 @@ export function readfirebase(idUser, type) {
         .catch((error) => {
         // Handle any errors
         });
+      case 'like':
+        return firebase.firestore().collection(idUser).doc('userPost').get()
+          .then((doc) => Object.values(doc.data()[data].likes))
+          .catch((error) => {
+            console.log('Error getting document:', error.message);
+          });
 
     default:
   }
 }
 
-export function fillposted(user){
+export function fillPosted(user){
 
-  let posted = firebase.firestore().collection(user).doc('userPost').get()
+  return firebase.firestore().collection(user).doc('userPost').get()
   .then((doc) => {
     return doc.data();
   });
-
-  return posted
-
+    
 }
 
+export function getUsersFireBase() {
+  return firebase.firestore().collection('userList').doc('list').get()
+  .then((docs) => {
+    const idusers = Object.values(docs.data());
+    return idusers
+  });
+}
 
-export function fillPostedAll(){
-
+export function fnMakeLike(userToGetLike, userToSetLike, post){  //--Funcion para dar like a publicacion
   
+  const refToSetLike = [post.slice(4)] + '.likes.' + userToSetLike;
+  let likes = 0;
+
+  return firebase.firestore().collection(userToGetLike).doc('userPost').update({
+    [refToSetLike] : 1,
+  })
+  .then(() => {
+
+    return firebase.firestore().collection(userToGetLike).doc('userPost').get()
+    .then((doc) => {
+      Object.values(doc.data()[post.slice(4)].likes).map(function (counlikes){
+        likes += counlikes;
+      });
+      return likes
+      
+    });
+
+
+  });
 
 }
+

@@ -33,21 +33,18 @@ export const pages = {
   home2: {
     path: '/',
     template: `<section class="dateUserHome">
-                 <h1 class="tittle_home2"> Bienvenido a Social </h1>
-                 <p class="nameUser"></p>
-                 <div><img class="profileimg" src=""></div>
-                 <div><input class="btn_profile" type="button" value="Perfil"></div>
-                 <div><input class="btn_make_post" type="button" value="Publicar"></div>
-                 <div class="box_post">
-                 <div class="box_post_img"><img class="subprofileimg"src=""><p class="subnameuser"></p></div>
-                 <div class="posted"><p>Esta es una Publicacion</p></div>
-                 <div class="box_post_btn"><p class="menu_btn_text" id="click_like">Me Gusta</p><p class="menu_btn_text" id="click_share">compartir</p><p class="menu_btn_text" id="click_coment">Comentar</p></div>
-                 <div><input class="texttopost" type="text" placeholder="Escribe aqui tu publicacion"></div>
-                 </div>
-               </section>  
+                <h1 class="tittle_home2"> Bienvenido a Social </h1>
+                <p class="nameUser"></p>
+                <div><img class="profileimg" src=""></div>
+                <div><input class="btn_profile" type="button" value="Perfil"></div>
+                <div><input class="btn_make_post" type="button" value="Publicar"></div>
+              </section>  
 
-               <section class="all_profile_post1">
-               </section>
+              <section class="all_profile_post">
+              </section>
+
+              <section class="make_post_on_profile">
+              </section>
                  `,
   },
   singUp: {
@@ -180,16 +177,31 @@ export const pages = {
       let result = 
       `
    
-    <div class="box_post">
-      <div class="box_post_img"><img class="subprofileimg"src="" id="img`+idPost+`"><div style="display:flex; flex-direction:column;"><p class="subnameuser" id="name`+idPost+`"></p><p class="date_posted" id="date`+idPost+`"></p></div></div>
+    <div class="box_post" id="big_box_post`+idPost+`">
+      <div class="box_post_img">
+        <img class="subprofileimg"src="" id="img`+idPost+`">
+        <div style="display:flex; flex-direction:column;">
+          <p class="subnameuser" id="name`+idPost+`"></p>
+          <p class="date_posted" id="date`+idPost+`"></p>
+        </div>
+      </div>
       <div class="posted">
+         <p class="text_post2">Publicacion:</p>
          <p class="tex_post1" id="post`+idPost+`"></p>
          <div id ="comment`+idPost+`"></div>
       </div>
       <div class="box_post_btn">
-          <div style="display:flex; flex-direction:row;"><img id ="like`+idPost+`" type="button" class="menu_btn_text evente_like" src="./img/likeicon.png"><p id ="contlike`+idPost+`"></p></div>
+          <div style="display:flex; flex-direction:row;">
+            <img id ="like`+idPost+`" value="" type="button" class="menu_btn_text evente_like" src="./img/likeicon.png">
+            <p id ="contlike`+idPost+`" class="menu_btn_text"></p>
+          </div>
           <img class="menu_btn_text" id="share_post`+idPost+`" src="./img/shericon2.png">
           <img class="menu_btn_text" id="make_comment_on_post`+idPost+`" onClick="fnMakeAComment('`+idPost+`')" src="./img/coment.png">
+          <img class="menu_btn_text show_menu" id="menu_options`+idPost+`"  src="./img/menuicon2.png">
+          <div id="div_menu_options`+idPost+`" style="display:none">
+            <p id="edit_post`+idPost+`" class="menu_btn_text edit_post">Editar</p>
+            <p id="delete_post`+idPost+`" class="menu_btn_text delete_post">Borrar</p>
+          </div>
       </div>
     
     </div>

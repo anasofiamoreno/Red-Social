@@ -1,5 +1,5 @@
 import { pages } from './templates.js';
-import { sendLogin, sendLoginGoogle } from './data.js';
+import { sendLogin, sendLoginGoogle } from './FireBase.js';
 
 export const objMain = document.createElement('main');
 //document.body.main.appendChild(objMain);

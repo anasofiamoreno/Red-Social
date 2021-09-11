@@ -1,10 +1,10 @@
 import { pages } from './lib/templates.js';
 import {
   objMain, fnPageSignUp, fnPagesLogin, fnLogin, fnAuthGoogle,
-} from './lib/nodemod.js';
+} from './lib/FnLogics.js';
 import {
-  sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillposted, fillPostedAll,
-} from './lib/data.js';
+  sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillPosted, getUsersFireBase, fnMakeLike,
+} from './lib/FireBase.js';
 
 let users = [];
 
@@ -86,10 +86,8 @@ async function router() {
         const info = await readfirebase(userState.uid, 'name');
         const img = await readfirebase(userState.uid, 'img');
         objMain.innerHTML = pages.home2.template;
-        await fnPrintPosted(img, name, 0, "all_user");
+        await fnPrintPosted2("all");
         document.querySelector('.profileimg').src = img;
-        document.querySelector('.subprofileimg').src = img;
-        document.querySelector('.subnameuser').innerHTML = info;
         document.querySelector('.nameUser').innerHTML = info;
         document.querySelector('.btn_profile').addEventListener('click', fnGoProfile);
       } else {
@@ -125,7 +123,7 @@ async function router() {
         let work = await readfirebase(userState.uid, 'work');
         let img = await readfirebase(userState.uid, 'img');
         objMain.innerHTML = pages.profile.template;
-        await fnPrintPosted(img, name);
+        await fnPrintPosted2('one');
         document.querySelector('.profileimg').src = img;
         document.querySelector('.nameUser').innerHTML = name;
         document.querySelector('.nameUserProfile').innerHTML = name;
@@ -175,18 +173,7 @@ async function router() {
         });
 
         document.querySelector(".btn_make_post").addEventListener('click', () => {
-          document.querySelector('.make_post_on_profile').innerHTML = pages.makeapost.template;
-          document.querySelector('.make_post_on_profile').style.display = "flex";
-          document.querySelector('.box_make_post').style.display = "flex";
-          document.querySelector('.subprofileimg3').src = img;
-          document.querySelector('.box_make_post').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const post = document.querySelector('.text_post').value;
-            console.log("entro");
-            console.log(post);
-            writeFareBase(userState.uid, 'post', post);
-            router();
-          });
+          fnMakeAPost('');
         }); 
       } else {
         window.history.pushState({}, '', pages.home.path);
@@ -200,67 +187,6 @@ async function router() {
   }
 }
 
-async function fnPrintPosted(img, name, user, type) {
-
-  const insert = document.querySelector('.all_profile_post');
-
-
-  if (type == 'all_user'){
-    fillPostedAll();
-
-  }else{
- 
-  
-  const posted = await fillposted(userState.uid);
-  const numpost = Object.keys(posted);
-  const title = document.createElement('p');
-  title.classList.add('text_post2');
-  
- 
-  numpost.map((x) => {
-
-    insert.innerHTML += pages.post.template(x);
-    title.innerHTML = 'Publicación: ';
-    document.getElementById('post' + x).innerHTML = title.outerHTML + posted[x].post;
-    document.getElementById('img' + x).src = img;
-    document.getElementById('name' + x).innerHTML = name;
-    document.getElementById('date' + x).innerHTML = x;
-    document.getElementById('contlike' + x).innerHTML = posted[x].likes;
-    
-    
-    const Listcomments = Object.keys(posted[x].comments);
-    Listcomments.map((item)=>{
-      const imgComment = document.createElement('img');
-      const divComment =document.createElement('div');
-      const divCommentin=document.createElement('div');
-      title.innerHTML = 'Comentario:'
-      divCommentin.style="display:flex; flex-direction:column;";
-      divComment.classList.add('box_comment');
-      imgComment.classList.add('subprofileimg4');
-      readfirebase(posted[x].comments[item].user, 'img')
-      .then((imgreturn) => { 
-        imgComment.src = imgreturn;
-        divCommentin.innerHTML = title.outerHTML + posted[x].comments[item].comment;
-        divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
-        document.getElementById('comment' + x).innerHTML +=divComment.outerHTML;
-      });
-      
-    });
-  });
-
-  
- const eventLike = document.querySelectorAll('img.evente_like');
- console.log(eventLike);
- eventLike.forEach(element => {
-   console.log(element.id);
-   element.addEventListener('click', () => {
-    fnMakeLike()
-    });
-   
- });
-
-  }
-}
 
 window.fnMakeAComment = fnMakeAComment;
 function fnMakeAComment(idForComment){
@@ -276,7 +202,151 @@ function fnMakeAComment(idForComment){
   //writeFareBase(idUser, type, data);
 }
 
-function fnMakeLike(user){
 
+
+async function fnPrintPosted2(type) {
+
+ let idUsers = [];
+  const insert = document.querySelector('.all_profile_post');
+  
+  switch(type){
+    case 'all':
+      idUsers = await getUsersFireBase();
+      break;
+    case 'one':
+      idUsers[0] = userState.uid;
+      break;
+    default:
+  }
+
+  
+  
+  idUsers.map(async function (postId, i ) {  // Map para todos los Usuarios
+
+    const posted = await fillPosted(postId, type);
+    const numpost = Object.keys(posted); 
+    
+    numpost.map((x) => {  // Map para todas las Publucaciones
+
+      insert.innerHTML += pages.post.template(x);
+      switch(type){
+        case 'all':
+          document.getElementById('like' + x).style.display = 'block';
+          document.getElementById('contlike' + x).style.display = 'block';
+          document.getElementById('share_post' + x).style.display = 'block';
+          document.getElementById('make_comment_on_post' + x).style.display = 'block';
+          break;
+        case 'one':
+          document.getElementById('like' + x).style.display = 'block';
+          document.getElementById('contlike' + x).style.display = 'block';
+          document.getElementById('menu_options' + x).style.display = 'block';
+          break;
+        default:
+      }
+
+      document.getElementById('post' + x).innerHTML = posted[x].post;
+    
+      readfirebase(postId, 'img')
+      .then((res) => {
+        document.getElementById('img' + x).src =  res;
+      });
+
+      readfirebase(postId, 'name')
+      .then((res) => {
+        document.getElementById('name' + x).innerHTML = res;
+      });
+    
+    
+      document.getElementById('date' + x).innerHTML = x;
+      let likes = 0;
+      const numlikes = Object.values(posted[x].likes);
+      
+      numlikes.map(function (counlikes){
+        likes += counlikes;
+      });
+      
+      document.getElementById('contlike' + x).innerHTML = likes;
+      
+      const valu = document.getElementById('like' + x);
+      valu.setAttribute('name', postId);
+    
+    
+      const Listcomments = Object.keys(posted[x].comments);
+      Listcomments.map((item)=>{  //Map para todos los comentarios
+        const imgComment = document.createElement('img');
+        const divComment =document.createElement('div');
+        const divCommentin=document.createElement('div');
+        title.innerHTML = 'Comentario:'
+        divCommentin.style="display:flex; flex-direction:column;";
+        divComment.classList.add('box_comment');
+        imgComment.classList.add('subprofileimg4');
+        readfirebase(posted[x].comments[item].user, 'img')
+        .then((imgreturn) => { 
+          imgComment.src = imgreturn;
+          divCommentin.innerHTML = title.outerHTML + posted[x].comments[item].comment;
+          divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
+          document.getElementById('comment' + x).innerHTML +=divComment.outerHTML;
+        });
+      
+      });
+
+    });
+
+    const eventLike = document.querySelectorAll('.evente_like');
+    eventLike.forEach( element => {
+
+      element.addEventListener('click', async () => {
+        document.getElementById('contlike' + element.id.slice(4)).innerHTML = await fnMakeLike(element.name, userState.uid, element.id);
+      });
+    });
+
+    const clickShowMenu = document.querySelectorAll('.show_menu');
+    clickShowMenu.forEach( element => {
+
+      element.addEventListener('click',() => {
+        document.getElementById('menu_options' + element.id.slice(12)).style.display = 'none'
+        document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'block'
+        document.getElementById('edit_post' + element.id.slice(12)).style.display = 'block'
+        document.getElementById('delete_post' + element.id.slice(12)).style.display = 'block'
+      });
+
+      document.getElementById('div_menu_options'+ element.id.slice(12)).addEventListener('mouseleave',() => {
+        document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'none'
+        document.getElementById('menu_options' + element.id.slice(12)).style.display = 'block'
+      });
+
+      document.getElementById('edit_post'+ element.id.slice(12)).addEventListener('click',() => {
+        const pp = document.getElementById('post' + element.id.slice(12)).innerHTML;
+        console.log(pp)
+        fnMakeAPost(pp);
+      });
+
+      document.getElementById('delete_post'+ element.id.slice(12)).addEventListener('click',() => {
+        writeFareBase(userState.uid, 'deletepost', element.id.slice(12));
+        const postDeleted = document.getElementById("big_box_post" + element.id.slice(12));
+        postDeleted.parentNode.removeChild(postDeleted);
+      });
+
+    });
+
+  })
+  
 }
 
+async function fnMakeAPost(postedToEdit){
+  document.querySelector('.make_post_on_profile').innerHTML = pages.makeapost.template;
+  document.querySelector('.text_post').value = postedToEdit;
+  document.querySelector('.make_post_on_profile').style.display = "flex";
+  document.querySelector('.box_make_post').style.display = "flex";
+  document.querySelector('.subprofileimg3').src = await readfirebase(userState.uid, 'img');
+  document.querySelector('.box_make_post').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const post = document.querySelector('.text_post').value;
+    writeFareBase(userState.uid, 'post', post);
+    router();
+  });
+}
+
+
+
+    

@@ -426,6 +426,7 @@ input:-webkit-autofill:active {
 }
 
 .menu_btn_text{
+  display: none;
   margin: 0 .5em 0 .5em;
   height: 25px;
 }
