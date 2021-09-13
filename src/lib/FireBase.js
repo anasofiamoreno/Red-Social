@@ -41,6 +41,9 @@ export function sendLoginGoogle(provider) {
 
 export function writeFareBase(idUser, type, data) {
   let message;
+  let datadif = 0;
+  let  datePost = 0 ;
+  const date = new Date();
   switch (type) {
     case 'namefirst': firebase.firestore().collection(idUser).doc('userInfo').set({
       name: data,
@@ -68,8 +71,7 @@ export function writeFareBase(idUser, type, data) {
     });
       break;
     case 'post':
-      const date = new Date();
-      const datePost = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+      datePost = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
 
        
       firebase.firestore().collection(idUser).doc('userPost').update({
@@ -80,18 +82,36 @@ export function writeFareBase(idUser, type, data) {
         }
       });
       break;
+    case 'editpost':
+    datadif = data.split('$-$');
+    const ref = datadif[0] + '.post';
+       
+    firebase.firestore().collection(idUser).doc('userPost').update({
+      [ref]: datadif[1],
+    });
+
+      break;
     case 'deletepost':
       firebase.firestore().collection(idUser).doc('userPost').update({
         [data] : firebase.firestore.FieldValue.delete(),
       })
       break;
     case 'comment':
+      datadif = data.split("$-$");
+      datePost = date.getDate()+'-'+(date.getMonth()+1)+'-'+date.getFullYear()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+      const refcomment = datadif[1] + '.comments.' + [datePost] + '.comment';
+      const refcommentuser = datadif[1] + '.comments.' + [datePost] + '.user';
+
+      return firebase.firestore().collection(datadif[0]).doc('userPost').update({
+        [refcomment] : datadif[2],
+        [refcommentuser] : datadif[0],
+      })
       console.log(data);
       break;
 
     default: message = 'Función mal definida';
 }
-  return message;
+  return 'ok';
 }
 
 export function readfirebase(idUser, type, data) {

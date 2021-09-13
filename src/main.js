@@ -10,6 +10,7 @@ let users = [];
 
 let userState = firebase.auth().currentUser;
 document.getElementById('idLogOut').addEventListener('click', fnLogOut);
+document.getElementById('menu_home').addEventListener('click', fnGoHome);
 // Autenticacion de Usuario al Entrar a la App o al cambiar de estado
 firebase.auth().onAuthStateChanged((user) => {
   if (user) {
@@ -73,6 +74,11 @@ function fnGoProfile() {
   router();
 }
 
+function fnGoHome() {
+  window.history.pushState({}, '', pages.home.path);
+  router();
+}
+
 function back() {
   window.history.go(-1);
 }
@@ -90,6 +96,8 @@ async function router() {
         document.querySelector('.profileimg').src = img;
         document.querySelector('.nameUser').innerHTML = info;
         document.querySelector('.btn_profile').addEventListener('click', fnGoProfile);
+        document.querySelector('.btn_make_post').addEventListener('click', () => {fnMakeAPost('')});
+
       } else {
         objMain.innerHTML = pages.home.template;
         const objBotonSingup = document.getElementById('id_home_text_registro');
@@ -170,6 +178,12 @@ async function router() {
             writeFareBase(userState.uid, 'work', work);
             router();
           });
+
+          document.getElementById('cancel_edit').addEventListener('click', () => {
+            document.querySelector('.dateUserHome1').style.display = "none";
+            document.querySelector('.ventana_modal_editar').style.display = "none";
+          });
+
         });
 
         document.querySelector(".btn_make_post").addEventListener('click', () => {
@@ -188,15 +202,48 @@ async function router() {
 }
 
 
-window.fnMakeAComment = fnMakeAComment;
-function fnMakeAComment(idForComment){
+ function fnMakeAComment(userWhoComment, userToComent, idForComment){
   document.querySelector('.make_post_on_profile').innerHTML = pages.makecomment.template;
   document.querySelector('.box_make_comment').style.display = "flex";
   document.querySelector('.make_post_on_profile').style.display = "flex";
-  document.querySelector('.box_make_comment').addEventListener('submit',(e) =>{
+  document.querySelector('.box_make_comment').addEventListener('click',(e) => {
+    const id = e.target.getAttribute("class");
+    console.log(id);
+    if(id == 'box_make_comment'){
+    document.querySelector('.box_make_comment').style.display = "none";
+    document.querySelector('.make_post_on_profile').style.display = "none";
+    document.querySelector('.make_post_on_profile').innerHTML = '';
+    };
+  });
+  document.querySelector('.box_make_comment').addEventListener('submit', async (e) =>{
       e.preventDefault();
       const comment =document.querySelector(".text_post").value;
-      writeFareBase(userState.uid, 'comment', comment);
+      if(!(comment == '')){
+       await writeFareBase(userWhoComment, 'comment',userToComent+  "$-$" + idForComment + "$-$" + comment);
+      
+      
+        const imgComment = document.createElement('img');
+        const divComment =document.createElement('div');
+        const divCommentin=document.createElement('div');
+        divCommentin.style="display:flex; flex-direction:column;";
+        divComment.classList.add('box_comment');
+        imgComment.classList.add('subprofileimg4');
+        readfirebase(userWhoComment, 'img')
+        .then((imgreturn) => { 
+          imgComment.src = imgreturn;
+          divCommentin.innerHTML = "<p>Comentario: </p>" + comment;
+          divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
+          document.getElementById('comment' + idForComment).innerHTML +=divComment.outerHTML;
+          document.querySelector('.box_make_comment').style.display = "none";
+          document.querySelector('.make_post_on_profile').style.display = "none";
+          document.querySelector('.make_post_on_profile').innerHTML = '';
+        });
+      }
+      else{
+        document.querySelector(".text_post").placeholder = "El comentario no puede estar en blanco"
+      }
+
+      
     });
 
   //writeFareBase(idUser, type, data);
@@ -221,12 +268,15 @@ async function fnPrintPosted2(type) {
 
   
   
-  idUsers.map(async function (postId, i ) {  // Map para todos los Usuarios
+  idUsers.map(async function (postId, i1 ) {  // Map para todos los Usuarios
+
+
 
     const posted = await fillPosted(postId, type);
     const numpost = Object.keys(posted); 
     
-    numpost.map((x) => {  // Map para todas las Publucaciones
+    numpost.map( async function(x, i2) {  // Map para todas las Publucaciones
+
 
       insert.innerHTML += pages.post.template(x);
       switch(type){
@@ -257,7 +307,7 @@ async function fnPrintPosted2(type) {
       });
     
     
-      document.getElementById('date' + x).innerHTML = x;
+      document.getElementById('date' + x).innerHTML = x.split(' ')[0];
       let likes = 0;
       const numlikes = Object.values(posted[x].likes);
       
@@ -267,8 +317,8 @@ async function fnPrintPosted2(type) {
       
       document.getElementById('contlike' + x).innerHTML = likes;
       
-      const valu = document.getElementById('like' + x);
-      valu.setAttribute('name', postId);
+      document.getElementById('like' + x).setAttribute('name', postId);
+      document.getElementById('make_comment_on_post' + x).setAttribute('name', postId);
     
     
       const Listcomments = Object.keys(posted[x].comments);
@@ -276,14 +326,14 @@ async function fnPrintPosted2(type) {
         const imgComment = document.createElement('img');
         const divComment =document.createElement('div');
         const divCommentin=document.createElement('div');
-        title.innerHTML = 'Comentario:'
+        //title.innerHTML = 'Comentario:'
         divCommentin.style="display:flex; flex-direction:column;";
         divComment.classList.add('box_comment');
         imgComment.classList.add('subprofileimg4');
         readfirebase(posted[x].comments[item].user, 'img')
         .then((imgreturn) => { 
           imgComment.src = imgreturn;
-          divCommentin.innerHTML = title.outerHTML + posted[x].comments[item].comment;
+          divCommentin.innerHTML = "<p>Comentario: </p>" + posted[x].comments[item].comment;
           divComment.innerHTML = imgComment.outerHTML + divCommentin.outerHTML;
           document.getElementById('comment' + x).innerHTML +=divComment.outerHTML;
         });
@@ -292,59 +342,96 @@ async function fnPrintPosted2(type) {
 
     });
 
-    const eventLike = document.querySelectorAll('.evente_like');
-    eventLike.forEach( element => {
 
-      element.addEventListener('click', async () => {
-        document.getElementById('contlike' + element.id.slice(4)).innerHTML = await fnMakeLike(element.name, userState.uid, element.id);
-      });
-    });
+    if((idUsers.length-1) == i1){
 
-    const clickShowMenu = document.querySelectorAll('.show_menu');
-    clickShowMenu.forEach( element => {
+      const eventLike = document.querySelectorAll('.evente_like');
+      eventLike.forEach( element => {
 
-      element.addEventListener('click',() => {
-        document.getElementById('menu_options' + element.id.slice(12)).style.display = 'none'
-        document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'block'
-        document.getElementById('edit_post' + element.id.slice(12)).style.display = 'block'
-        document.getElementById('delete_post' + element.id.slice(12)).style.display = 'block'
+        element.addEventListener('click', async () => {
+          document.getElementById('contlike' + element.id.slice(4)).innerHTML = await fnMakeLike(element.name, userState.uid, element.id);
+        });
       });
 
-      document.getElementById('div_menu_options'+ element.id.slice(12)).addEventListener('mouseleave',() => {
-        document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'none'
-        document.getElementById('menu_options' + element.id.slice(12)).style.display = 'block'
+      const clickShowMenu = document.querySelectorAll('.show_menu');
+      clickShowMenu.forEach( element => {
+
+        element.addEventListener('click',() => {
+          document.getElementById('menu_options' + element.id.slice(12)).style.display = 'none'
+          document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'block'
+          document.getElementById('edit_post' + element.id.slice(12)).style.display = 'block'
+          document.getElementById('delete_post' + element.id.slice(12)).style.display = 'block'
+        });
+
+        document.getElementById('big_box_post'+ element.id.slice(12)).addEventListener('mouseleave',() => {
+          document.getElementById('div_menu_options' + element.id.slice(12)).style.display = 'none'
+          document.getElementById('menu_options' + element.id.slice(12)).style.display = 'block'
+        });
+
+        document.getElementById('edit_post'+ element.id.slice(12)).addEventListener('click', () => {
+          const edited = document.getElementById('post' + element.id.slice(12)).innerHTML;
+          fnMakeAPost(edited, element.id.slice(12));
+        });
+
+        document.getElementById('delete_post'+ element.id.slice(12)).addEventListener('click',() => {
+          writeFareBase(userState.uid, 'deletepost', element.id.slice(12));
+          const postDeleted = document.getElementById("big_box_post" + element.id.slice(12));
+          postDeleted.parentNode.removeChild(postDeleted);
+        });
+
       });
 
-      document.getElementById('edit_post'+ element.id.slice(12)).addEventListener('click',() => {
-        const pp = document.getElementById('post' + element.id.slice(12)).innerHTML;
-        console.log(pp)
-        fnMakeAPost(pp);
+      
+      const eventComment = document.querySelectorAll('.event_comment');
+      eventComment.forEach( element => {
+
+        element.addEventListener('click', async () => {
+          fnMakeAComment(userState.uid, element.name, element.id.slice(20));
+        });
       });
-
-      document.getElementById('delete_post'+ element.id.slice(12)).addEventListener('click',() => {
-        writeFareBase(userState.uid, 'deletepost', element.id.slice(12));
-        const postDeleted = document.getElementById("big_box_post" + element.id.slice(12));
-        postDeleted.parentNode.removeChild(postDeleted);
-      });
-
-    });
-
-  })
+    };
+  });
   
 }
 
-async function fnMakeAPost(postedToEdit){
+async function fnMakeAPost(postedToEdit, originPost){
   document.querySelector('.make_post_on_profile').innerHTML = pages.makeapost.template;
   document.querySelector('.text_post').value = postedToEdit;
   document.querySelector('.make_post_on_profile').style.display = "flex";
   document.querySelector('.box_make_post').style.display = "flex";
   document.querySelector('.subprofileimg3').src = await readfirebase(userState.uid, 'img');
+  document.querySelector('.make_post_on_profile').addEventListener('click',(e) => {
+    const id = e.target.getAttribute("class");
+    if(id == 'make_post_on_profile'){
+      document.querySelector('.make_post_on_profile').style.display = "none";
+      document.querySelector('.box_make_post').style.display = "none";
+      document.querySelector('.make_post_on_profile').innerHTML = '';
+    };
+  });
   document.querySelector('.box_make_post').addEventListener('submit', (e) => {
     e.preventDefault();
     const post = document.querySelector('.text_post').value;
-    writeFareBase(userState.uid, 'post', post);
-    router();
+    if(!(post == ''))
+    {
+      if(postedToEdit == ''){
+        writeFareBase(userState.uid, 'post', post);
+        router();
+      }
+      else{
+        writeFareBase(userState.uid, 'editpost', originPost + '$-$' + post);
+        document.querySelector('.make_post_on_profile').style.display = "none";
+        document.querySelector('.box_make_post').style.display = "none";
+        document.querySelector('.make_post_on_profile').innerHTML = '';
+        document.getElementById('post' + originPost).innerHTML = post
+      }
+    
+    }
+    else{
+      document.querySelector('.text_post').placeholder = 'La Publicacion no puede estar en blanco';
+    };
+    
   });
+
 }
 
 

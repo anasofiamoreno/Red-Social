@@ -16,13 +16,13 @@ export const pages = {
           <div class="home_box_login">
             <input type="button" class="home_btn_login" id="id_home_btn_login" value="LogIn"></input>
             <input type="button" class="home_btn_login_google" id="id_home_btn_login_google" value="Cuenta de Google"></input>
-            <p class="home_text_01">¿Aun no tienes cuenta?</p>
-            <div class="home_text_02" id="id_home_text_registro">
-              <p class=".btnMenuReg">Registrate</p>
-              <p id="loginErrorGoogle"></p>
+            <div>
+              <p class="home_text_01">¿Aun no tienes cuenta?</p>
+              <div class="home_text_02" id="id_home_text_registro">
+                <p class=".btnMenuReg">Registrate</p>
+                <p id="loginErrorGoogle"></p>
+              </div>
             </div>
-          
-
           </div>
 
         </div>
@@ -133,7 +133,10 @@ export const pages = {
             <input type="text" class="name_profile" placeholder="Nombre">
             <input type="text" class="city_profile" placeholder="Ciudad">
             <input type="text" class="work_profile" placeholder="Lugar de Trabajo">
+            <div class="action_edit_perfil">
             <button type="submint" >Guardar</button>
+            <button type="button" id="cancel_edit">Cancelar</button>
+            </div>
           </form>
         </div>
       </div>
@@ -154,13 +157,10 @@ export const pages = {
       <div class="post_publish">
         <textarea class='text_post' placeholder='¿Qué te gustaria públicar?' type ='text'></textarea>
         <div class="box_post_btn_publish">
-          <div class="btn_post_publisher"> 
-            <img class="menu_btn_publish" src="./img/likeicon.png">
-            <img class="menu_btn_publish" src="./img/shericon2.png">
-            <img class="menu_btn_publish" src="./img/coment.png">
-          </div>  
+           
           <div>
-            <button type="submit" id="publish_post_profile">Publicar</button>
+            <button type="submit" id="publish_comment_profile">Publicar</button>
+            
           </div>
         </div>  
       </div> 
@@ -196,7 +196,7 @@ export const pages = {
             <p id ="contlike`+idPost+`" class="menu_btn_text"></p>
           </div>
           <img class="menu_btn_text" id="share_post`+idPost+`" src="./img/shericon2.png">
-          <img class="menu_btn_text" id="make_comment_on_post`+idPost+`" onClick="fnMakeAComment('`+idPost+`')" src="./img/coment.png">
+          <img class="menu_btn_text event_comment" id="make_comment_on_post`+idPost+`"  src="./img/coment.png">
           <img class="menu_btn_text show_menu" id="menu_options`+idPost+`"  src="./img/menuicon2.png">
           <div id="div_menu_options`+idPost+`" style="display:none">
             <p id="edit_post`+idPost+`" class="menu_btn_text edit_post">Editar</p>
