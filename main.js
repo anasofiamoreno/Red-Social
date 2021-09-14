@@ -38,8 +38,9 @@ async function fnSignUp(e) {
   const singUpName = document.getElementById('sign_up_user_name').value;
   if (signUpPassword1 === signUpPassword2) {
     const message = await sendSingUp(signUpEmail, signUpPassword1);
+    console.log(message);
     if (firebase.auth().currentUser) {
-      users = message;
+      const users = message;
       writeFareBase(users.uid, 'namefirst', singUpName);
       writeFareBase(users.uid, 'city', "");
       writeFareBase(users.uid, 'work', "");
