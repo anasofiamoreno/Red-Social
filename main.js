@@ -159,7 +159,7 @@ async function router() {
       }
       break;
     default:
-      window.history.pushState({}, '', '/');
+      window.history.pushState({}, '', '/Red-Social');
       router();
       break;
   }
