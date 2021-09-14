@@ -189,6 +189,15 @@ export const pages = {
          <p class="text_post2">Publicacion:</p>
          <p class="tex_post1" id="post`+idPost+`"></p>
          <div id ="comment`+idPost+`"></div>
+         <div id="div_menu_options`+idPost+`" class="div_menu_options">
+           <p id="edit_post`+idPost+`" class="menu_btn_text edit_post">Editar</p>
+           <p id="delete_post`+idPost+`" class="menu_btn_text delete_post">Borrar</p>
+           <p id="segura_post`+idPost+`" class="menu_btn_text">¿Estas segur@?</p>
+           <div class="row">
+             <p id="si_post`+idPost+`" class="menu_btn_text">Si</p>
+             <p id="no_post`+idPost+`" class="menu_btn_text">No</p>
+           </div>
+        </div>
       </div>
       <div class="box_post_btn">
           <div style="display:flex; flex-direction:row;">
@@ -198,11 +207,11 @@ export const pages = {
           <img class="menu_btn_text" id="share_post`+idPost+`" src="./img/shericon2.png">
           <img class="menu_btn_text event_comment" id="make_comment_on_post`+idPost+`"  src="./img/coment.png">
           <img class="menu_btn_text show_menu" id="menu_options`+idPost+`"  src="./img/menuicon2.png">
-          <div id="div_menu_options`+idPost+`" style="display:none">
-            <p id="edit_post`+idPost+`" class="menu_btn_text edit_post">Editar</p>
-            <p id="delete_post`+idPost+`" class="menu_btn_text delete_post">Borrar</p>
-          </div>
+
+          
+            
       </div>
+      
     
     </div>
 

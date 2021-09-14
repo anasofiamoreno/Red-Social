@@ -5,6 +5,11 @@
     text-decoration: none;
 }
 
+.row{
+  display: flex;
+  flex-direction: row;
+}
+
 
 .menu_superior {
   display: flex;
@@ -114,7 +119,6 @@
 }
 
 .form p{
-  color: aliceblue;
   margin-bottom: .5em;
   font-family: 'Work Sans', sans-serif;
   font-style:normal;
@@ -165,6 +169,19 @@ input:-webkit-autofill:active {
     color: rgba(20, 33, 61, 0.9);
     margin-left: .5em;
     margin-right: .5em;
+  }
+
+  .div_menu_options{
+    display: none;
+    background:aliceblue;
+    padding: 1em;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: relative;
+    z-index:3;
+    
   }
 
   .uploadpicture{

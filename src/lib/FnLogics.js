@@ -9,17 +9,14 @@ export function fnPageSignUp() {
   window.history.pushState({}, '', pages.singUp.path);
   objMain.innerHTML = pages.singUp.template;
 }
-export function fnPagesLogin() {
-  window.history.pushState({}, '', pages.login.path);
-  objMain.innerHTML = pages.login.template;
-}
+
 
 export async function fnLogin(loginEmail, loginPassword) {
-  await sendLogin(loginEmail, loginPassword);
+  const message = await sendLogin(loginEmail, loginPassword);
   if (firebase.auth().currentUser) {
     window.history.pushState({}, '', pages.home2.path);
   } else {
-    return 'message';
+    return message;
   }
 }
 

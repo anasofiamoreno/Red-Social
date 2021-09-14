@@ -21,7 +21,7 @@ export function sendLogin(email, password) {
       return user;
     })
     .catch((error) => {
-      const errorMessage = 'no coicide correo y contraseña';
+      const errorMessage = 'No coinciden correo ó contraseña';
       return errorMessage;
     });
   return message;
@@ -29,7 +29,7 @@ export function sendLogin(email, password) {
 
 export function fnLogOutFb() {
   return firebase.auth().signOut()
-    .then((message) => { return message; })
+    .then((message) => {  return message; })
     .catch((error) => { return error; });
 }
 
@@ -54,8 +54,8 @@ export function writeFareBase(idUser, type, data) {
     firebase.firestore().collection(idUser).doc("userPost").set({
       post: "",
     });
-    firebase.firestore().collection('userList').doc(idUser).set({
-      userID: idUser,
+    firebase.firestore().collection('userList').doc('list').update({
+      [idUser]: idUser,
     });
       break;
     case 'name': return firebase.firestore().collection(idUser).doc('userInfo').update({
@@ -104,7 +104,7 @@ export function writeFareBase(idUser, type, data) {
 
       return firebase.firestore().collection(datadif[0]).doc('userPost').update({
         [refcomment] : datadif[2],
-        [refcommentuser] : datadif[0],
+        [refcommentuser] : idUser,
       })
       console.log(data);
       break;
