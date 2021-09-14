@@ -91,7 +91,7 @@ window.onpopstate = () => { //Evento cambio de pagina en navegado y autenticacio
 async function router() {
 
   switch (window.location.pathname) {
-    case '/':
+    case '/Red-Social':
       if (userState.uid) {
         const info = await readfirebase(userState.uid, 'name');
         const img = await readfirebase(userState.uid, 'img');
