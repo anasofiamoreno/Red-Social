@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<!-- saved from url=(0056)https://www.arkaitzgarro.com/javascript/capitulo-15.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="author" content="Arkaitz Garro">
+    <meta name="date" content="08/01/2014">
+    <meta name="generator" content="easybook 5.0-DEV">
+
+    <title>Eventos | JavaScript</title>
+
+    <link rel="stylesheet" href="./Eventos _ JavaScript_files/easybook.css">
+
+    <link rel="stylesheet" href="./Eventos _ JavaScript_files/styles.css">
+    <script async="" src="./Eventos _ JavaScript_files/analytics.js"></script><script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-39705204-1', 'arkaitzgarro.com');
+      ga('send', 'pageview');
+
+    </script>
+    <script data-name="BMC-Widget" src="./Eventos _ JavaScript_files/widget.prod.min.js" data-id="arkaitzgarro" data-description="Support me on Buy me a coffee!" data-message="¡Gracias por tu visita! Si consideras que este contenido te ha ayudado en tu carrera, te agradeccería que pudieses comprarme un cafe. Sin tu ayuda, no puedo asegurar que este sitio web se pueda mantener online durante mucho mas tiempo..." data-color="red" data-position="Right" data-x_margin="18" data-y_margin="18"></script>
+</head>
+
+<body class="item chapter">
+<div class="container">
+<div class="menu">
+    <div class="row">
+        <h1 class="span9"><a href="https://www.arkaitzgarro.com/javascript/index.html">JavaScript</a></h1>
+        <p class="span3">
+                        <a href="https://www.arkaitzgarro.com/javascript/capitulo-14.html"><span>←</span> Anterior</a>
+
+                        <a href="https://www.arkaitzgarro.com/javascript/capitulo-16.html">Siguiente <span>→</span></a>
+                    </p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="span9">
+        <h1 id="eventos"><span>Capítulo 15</span> Eventos</h1>
+        <p>En la programación tradicional, las aplicaciones se ejecutan secuencialmente de principio a fin para producir sus resultados. Sin embargo, en la actualidad el modelo predominante es el de la programación basada en eventos. Los scripts y programas esperan sin realizar ninguna tarea hasta que se produzca un evento. Una vez producido, ejecutan alguna tarea asociada a la aparición de ese evento y cuando concluye, el script o programa vuelve al estado de espera.</p>
+
+<p>JavaScript permite realizar scripts con ambos métodos de programación: secuencial y basada en eventos. Los eventos de JavaScript permiten la interacción entre las aplicaciones JavaScript y los usuarios. Cada vez que se pulsa un botón, se produce un evento. Cada vez que se pulsa una tecla, también se produce un evento. No obstante, para que se produzca un evento no es obligatorio que intervenga el usuario, ya que por ejemplo, cada vez que se carga una página, también se produce un evento.</p>
+
+<p>El nivel 1 de DOM no incluye especificaciones relativas a los eventos JavaScript. El nivel 2 de DOM incluye ciertos aspectos relacionados con los eventos y el nivel 3 de DOM incluye la especificación completa de los eventos de JavaScript. Desafortunadamente, la especificación de nivel 3 de DOM se publicó en el año 2004, más de diez años después de que los primeros navegadores incluyeran los eventos.</p>
+
+<p>Por este motivo, muchas de las propiedades y métodos actuales relacionados con los eventos son incompatibles con los de DOM. De hecho, navegadores como Internet Explorer tratan los eventos siguiendo su propio modelo incompatible con el estándar.</p>
+
+<p>El modelo simple de eventos se introdujo en la versión 4 del estándar HTML y se considera parte del nivel más básico de DOM. Aunque sus características son limitadas, es el único modelo que es compatible con todos los navegadores y por tanto, el único que permite crear aplicaciones que funcionan de la misma manera en todos los navegadores.</p>
+
+<h2 id="tipos-de-eventos">15.1 Tipos de eventos</h2>
+
+<p>Cada elemento XHTML tiene definida su propia lista de posibles eventos que se le pueden asignar. Un mismo tipo de evento (por ejemplo, pinchar el botón izquierdo del ratón) puede estar definido para varios elementos XHTML y un mismo elemento XHTML puede tener asociados diferentes eventos.</p>
+
+<p>El nombre de los eventos se construye mediante el prefijo <code>on</code>, seguido del nombre en inglés de la acción asociada al evento. Así, el evento de pinchar un elemento con el ratón se denomina <code>onclick</code> y el evento asociado a la acción de mover el ratón se denomina <code>onmousemove</code>.</p>
+
+<p>La siguiente tabla resume los eventos más importantes definidos por JavaScript:</p>
+
+<div class="table" id="table-15-1">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+  <th>Elementos para los que está definido</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>onblur</code></td>
+  <td>Un elemento pierde el foco</td>
+  <td><code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;label&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onchange</code></td>
+  <td>Un elemento ha sido modificado</td>
+  <td><code>&lt;input&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onclick</code></td>
+  <td>Pulsar y soltar el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>ondblclick</code></td>
+  <td>Pulsar dos veces seguidas con el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onfocus</code></td>
+  <td>Un elemento obtiene el foco</td>
+  <td><code>&lt;button&gt;</code>, <code>&lt;input&gt;</code>, <code>&lt;label&gt;</code>, <code>&lt;select&gt;</code>, <code>&lt;textarea&gt;</code>, <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeydown</code></td>
+  <td>Pulsar una tecla y no soltarla</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeypress</code></td>
+  <td>Pulsar una tecla</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onkeyup</code></td>
+  <td>Soltar una tecla pulsada</td>
+  <td>Elementos de formulario y <code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onload</code></td>
+  <td>Página cargada completamente</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onmousedown</code></td>
+  <td>Pulsar un botón del ratón y no soltarlo</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmousemove</code></td>
+  <td>Mover el ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseout</code></td>
+  <td>El ratón "sale" del elemento</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseover</code></td>
+  <td>El ratón "entra" en el elemento</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onmouseup</code></td>
+  <td>Soltar el botón del ratón</td>
+  <td>Todos los elementos</td>
+</tr>
+<tr>
+  <td><code>onreset</code></td>
+  <td>Inicializar el formulario</td>
+  <td><code>&lt;form&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onresize</code></td>
+  <td>Modificar el tamaño de la ventana</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onselect</code></td>
+  <td>Seleccionar un texto</td>
+  <td><code>&lt;input&gt;</code>, <code>&lt;textarea&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onsubmit</code></td>
+  <td>Enviar el formulario</td>
+  <td><code>&lt;form&gt;</code></td>
+</tr>
+<tr>
+  <td><code>onunload</code></td>
+  <td>Se abandona la página, por ejemplo al cerrar el navegador</td>
+  <td><code>&lt;body&gt;</code></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Los eventos más utilizados en las aplicaciones web tradicionales son <code>onload</code> para esperar a que se cargue la página por completo, los eventos <code>onclick</code>, <code>onmouseover</code>, <code>onmouseout</code> para controlar el ratón y <code>onsubmit</code> para controlar el envío de los formularios.</p>
+
+<p>Algunos eventos de la tabla anterior (<code>onclick</code>, <code>onkeydown</code>, <code>onkeypress</code>, <code>onreset</code>, <code>onsubmit</code>) permiten evitar la "acción por defecto" de ese evento. Más adelante se muestra en detalle este comportamiento, que puede resultar muy útil en algunas técnicas de programación.</p>
+
+<p>Las acciones típicas que realiza un usuario en una página web pueden dar lugar a una sucesión de eventos. Al pulsar por ejemplo sobre un botón de tipo <code>&lt;input type="submit"&gt;</code> se desencadenan los eventos <code>onmousedown</code>, <code>onclick</code>, <code>onmouseup</code> y <code>onsubmit</code> de forma consecutiva.</p>
+
+<h3 id="manejadores-de-eventos">15.1.1 Manejadores de eventos</h3>
+
+<p>Un evento de JavaScript por sí mismo carece de utilidad. Para que los eventos resulten útiles, se deben asociar funciones o código JavaScript a cada evento. De esta forma, cuando se produce un evento se ejecuta el código indicado, por lo que la aplicación puede responder ante cualquier evento que se produzca durante su ejecución.</p>
+
+<p>Las funciones o código JavaScript que se definen para cada evento se denominan <em>manejador de eventos</em> (<em>event handlers</em> en inglés) y como JavaScript es un lenguaje muy flexible, existen varias formas diferentes de indicar los manejadores:</p>
+
+<ul>
+<li>Manejadores como atributos de los elementos XHTML.</li>
+<li>Manejadores como funciones JavaScript externas.</li>
+<li>Manejadores "semánticos".</li>
+</ul>
+
+<h4 id="manejadores-como-atributos-xhtml">15.1.1.1 Manejadores como atributos XHTML</h4>
+
+<p>Se trata del método más sencillo y a la vez <em>menos profesional</em> de indicar el código JavaScript que se debe ejecutar cuando se produzca un evento. En este caso, el código se incluye en un atributo del propio elemento XHTML. En el siguiente ejemplo, se quiere mostrar un mensaje cuando el usuario pinche con el ratón sobre un botón:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"button"</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">"Pinchame y verás"</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"console.log('Gracias por pinchar');"</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>En este método, se definen atributos XHTML con el mismo nombre que los eventos que se quieren manejar. El ejemplo anterior sólo quiere controlar el evento de pinchar con el ratón, cuyo nombre es <code>onclick</code>. Así, el elemento XHTML para el que se quiere definir este evento, debe incluir un atributo llamado <code>onclick</code>.</p>
+
+<p>El contenido del atributo es una cadena de texto que contiene todas las instrucciones JavaScript que se ejecutan cuando se produce el evento. En este caso, el código JavaScript es muy sencillo (<code>console.log('Gracias por pinchar');</code>), ya que solamente se trata de mostrar un mensaje.</p>
+
+<p>En este otro ejemplo, cuando el usuario pincha sobre el elemento <code>&lt;div&gt;</code> se muestra un mensaje y cuando el usuario pasa el ratón por encima del elemento, se muestra otro mensaje:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"console.log('Has pinchado con el ratón');"</span> <span class="kw3">onmouseover</span><span class="sy0">=</span><span class="st0">"console.log('Acabas de pasar el ratón por encima');"</span>&gt;</span>
+    Puedes pinchar sobre este elemento o simplemente pasar el ratón por encima
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>Este otro ejemplo incluye una de las instrucciones más utilizadas en las aplicaciones JavaScript más antiguas:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">body</span> <span class="kw3">onload</span><span class="sy0">=</span><span class="st0">"console.log('La página se ha cargado completamente');"</span>&gt;</span>
+ ...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span></pre>
+</div>
+
+<p>El mensaje anterior se muestra después de que la página se haya cargado completamente, es decir, después de que se haya descargado su código HTML, sus imágenes y cualquier otro objeto incluido en la página.</p>
+
+<p>El evento <code>onload</code> es uno de los más utilizados ya que, como se vio en el capítulo de DOM, las funciones que permiten acceder y manipular los nodos del árbol DOM solamente están disponibles cuando la página se ha cargado completamente.</p>
+
+<h4 id="manejadores-de-eventos-y-variable-this">15.1.1.2 Manejadores de eventos y variable this</h4>
+
+<p>JavaScript define una variable especial llamada <code>this</code> que se crea automáticamente y que se emplea en algunas técnicas avanzadas de programación. En los eventos, se puede utilizar la variable <code>this</code> para referirse al elemento XHTML que ha provocado el evento. Esta variable es muy útil para ejemplos como el siguiente:</p>
+
+<p>Cuando el usuario pasa el ratón por encima del <code>&lt;div&gt;</code>, el color del borde se muestra de color negro. Cuando el ratón sale del <code>&lt;div&gt;</code>, se vuelve a mostrar el borde con el color gris claro original.</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"contenidos"</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">"width:150px; height:60px; border:thin solid silver"</span>&gt;</span>
+  Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>Si no se utiliza la variable <code>this</code>, el código necesario para modificar el color de los bordes, sería el siguiente:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"contenidos"</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">"width:150px; height:60px; border:thin solid silver"</span> <span class="kw3">onmouseover</span><span class="sy0">=</span><span class="st0">"document.getElementById('contenidos').style.borderColor='black';"</span> <span class="kw3">onmouseout</span><span class="sy0">=</span><span class="st0">"document.getElementById('contenidos').style.borderColor='silver';"</span>&gt;</span>
+    Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>El código anterior es demasiado largo y demasiado propenso a cometer errores. Dentro del código de un evento, JavaScript crea automáticamente la variable <code>this</code>, que hace referencia al elemento XHTML que ha provocado el evento. Así, el ejemplo anterior se puede reescribir de la siguiente manera:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"contenidos"</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">"width:150px; height:60px; border:thin solid silver"</span> <span class="kw3">onmouseover</span><span class="sy0">=</span><span class="st0">"this.style.borderColor='black';"</span> <span class="kw3">onmouseout</span><span class="sy0">=</span><span class="st0">"this.style.borderColor='silver';"</span>&gt;</span>
+    Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>El código anterior es mucho más compacto, más fácil de leer y de escribir y sigue funcionando correctamente aunque se modifique el valor del atributo id del <code>&lt;div&gt;</code>.</p>
+
+<h4 id="manejadores-de-eventos-como-funciones-externas">15.1.1.3 Manejadores de eventos como funciones externas</h4>
+
+<p>La definición de manejadores de eventos en los atributos XHTML es un método sencillo pero poco aconsejable para tratar con los eventos en JavaScript. El principal inconveniente es que se complica en exceso en cuanto se añaden algunas pocas instrucciones, por lo que solamente es recomendable para los casos más sencillos.</p>
+
+<p>Cuando el código de la función manejadora es más complejo, como por ejemplo la validación de un formulario, es aconsejable agrupar todo el código JavaScript en una función externa que se invoca desde el código XHTML cuando se produce el evento.</p>
+
+<p>De esta forma, el siguiente ejemplo:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"button"</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">"Pinchame y verás"</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"console.log('Gracias por pinchar');"</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>Se puede transformar en:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">'Gracias por pinchar'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span></pre>
+</div>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"button"</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">"Pinchame y verás"</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"muestraMensaje()"</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>En las funciones externas no es posible utilizar la variable <code>this</code> de la misma forma que en los manejadores insertados en los atributos XHTML. Por tanto, es necesario pasar la variable <code>this</code> como parámetro a la función manejadora:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> resalta<span class="br0">(</span>elemento<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">switch</span><span class="br0">(</span>elemento.<span class="me1">style</span>.<span class="me1">borderColor</span><span class="br0">)</span> <span class="br0">{</span>
+    <span class="kw1">case</span> <span class="st0">'silver'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'silver silver silver silver'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'#c0c0c0'</span><span class="sy0">:</span>
+      elemento.<span class="me1">style</span>.<span class="me1">borderColor</span> <span class="sy0">=</span> <span class="st0">'black'</span><span class="sy0">;</span>
+      <span class="kw1">break</span><span class="sy0">;</span>
+    <span class="kw1">case</span> <span class="st0">'black'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'black black black black'</span><span class="sy0">:</span>
+    <span class="kw1">case</span> <span class="st0">'#000000'</span><span class="sy0">:</span>
+      elemento.<span class="me1">style</span>.<span class="me1">borderColor</span> <span class="sy0">=</span> <span class="st0">'silver'</span><span class="sy0">;</span>
+      <span class="kw1">break</span><span class="sy0">;</span>
+  <span class="br0">}</span>
+<span class="br0">}</span></pre>
+</div>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">style</span><span class="sy0">=</span><span class="st0">"padding: .2em; width: 150px; height: 60px; border: thin solid silver"</span> <span class="kw3">onmouseover</span><span class="sy0">=</span><span class="st0">"resalta(this)"</span> <span class="kw3">onmouseout</span><span class="sy0">=</span><span class="st0">"resalta(this)"</span>&gt;</span>
+  Sección de contenidos...
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span></pre>
+</div>
+
+<p>En el ejemplo anterior, a la función externa se le pasa el parámetro <code>this</code>, que dentro de la función se denomina <code>elemento</code>. Al pasar <code>this</code> como parámetro, es posible acceder de forma directa desde la función externa a las propiedades del elemento que ha provocado el evento.</p>
+
+<p>Por otra parte, el ejemplo anterior se complica por la forma en la que los distintos navegadores almacenan el valor de la propiedad <code>borderColor</code>. Mientras que Firefox almacena (en caso de que los cuatro bordes coincidan en color) el valor simple <code>black</code>, Internet Explorer lo almacena como <code>black black black black</code> y Opera almacena su representación hexadecimal <code>#000000</code>.</p>
+
+<h4 id="manejadores-de-eventos-semanticos">15.1.1.4 Manejadores de eventos semánticos</h4>
+
+<p>Utilizar los atributos XHTML o las funciones externas para añadir manejadores de eventos tiene un grave inconveniente: "ensucian" el código XHTML de la página.</p>
+
+<p>Como es conocido, al crear páginas web se recomienda separar los contenidos (XHTML) de la presentación (CSS). En lo posible, también se recomienda separar los contenidos (XHTML) de la programación (JavaScript). Mezclar JavaScript y XHTML complica excesivamente el código fuente de la página, dificulta su mantenimiento y reduce la semántica del documento final producido.</p>
+
+<p>Afortunadamente, existe un método alternativo para definir los manejadores de eventos de JavaScript. Esta técnica consiste en asignar las funciones externas mediante las propiedades DOM de los elementos XHTML. Así, el siguiente ejemplo:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"pinchable"</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"button"</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">"Pinchame y verás"</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"console.log('Gracias por pinchar');"</span> <span class="sy0">/</span>&gt;</span>
+Se puede transformar en:</pre>
+</div>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">'Gracias por pinchar'</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"pinchable"</span><span class="br0">)</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span></pre>
+</div>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">input</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"pinchable"</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">"button"</span> <span class="kw3">value</span><span class="sy0">=</span><span class="st0">"Pinchame y verás"</span> <span class="sy0">/</span>&gt;</span></pre>
+</div>
+
+<p>El código XHTML resultante es muy "limpio", ya que no se mezcla con el código JavaScript. La técnica de los manejadores semánticos consiste en:</p>
+
+<ol>
+<li>Asignar un identificador único al elemento XHTML mediante el atributo id.</li>
+<li>Crear una función de JavaScript encargada de manejar el evento.</li>
+<li>Asignar la función a un evento concreto del elemento XHTML mediante DOM.</li>
+</ol>
+
+<p>Otra ventaja adicional de esta técnica es que las funciones externas pueden utilizar la variable <code>this</code> referida al elemento que original el evento.</p>
+
+<p>Asignar la función manejadora mediante DOM es un proceso que requiere una explicación detallada. En primer lugar, se obtiene la referencia del elemento al que se va a asignar el manejador:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"pinchable"</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>A continuación, se asigna la función externa al evento deseado mediante una propiedad del elemento con el mismo nombre del evento:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"pinchable"</span><span class="br0">)</span>.<span class="me1">onclick</span> <span class="sy0">=</span> ...</pre>
+</div>
+
+<p>Por último, se asigna la función externa. Como ya se ha comentado en capítulos anteriores, lo más importante (y la causa más común de errores) es indicar solamente el nombre de la función, es decir, prescindir de los paréntesis al asignar la función:</p>
+
+<div class="code javascript">
+<pre class="javascript">document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"pinchable"</span><span class="br0">)</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span></pre>
+</div>
+
+<p>Si se añaden los paréntesis al final, en realidad se está invocando la función y asignando el valor devuelto por la función al evento <code>onclick</code> de elemento.</p>
+
+<p>El único inconveniente de este método es que los manejadores se asignan mediante las funciones DOM, que solamente se pueden utilizar después de que la página se ha cargado completamente. De esta forma, para que la asignación de los manejadores no resulte errónea, es necesario asegurarse de que la página ya se ha cargado.</p>
+
+<p>Una de las formas más sencillas de asegurar que cierto código se va a ejecutar después de que la página se cargue por completo es utilizar el evento <code>onload</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript">window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"pinchable"</span><span class="br0">)</span>.<span class="me1">onclick</span> <span class="sy0">=</span> muestraMensaje<span class="sy0">;</span>
+<span class="br0">}</span></pre>
+</div>
+
+<p>La técnica anterior utiliza una función anónima para asignar algunas instrucciones al evento <code>onload</code> de la página (en este caso se ha establecido mediante el objeto <code>window</code>). De esta forma, para asegurar que cierto código se va a ejecutar después de que la página se haya cargado, sólo es necesario incluirlo en el interior de la siguiente construcción:</p>
+
+<div class="code javascript">
+<pre class="javascript">window.<span class="me1">onload</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  ...
+<span class="br0">}</span></pre>
+</div>
+
+<h2 id="el-flujo-de-eventos">15.2 El flujo de eventos</h2>
+
+<p>Además de los eventos básicos que se han visto, los navegadores incluyen un mecanismo relacionado llamado flujo de eventos o <em>"event flow"</em>. El flujo de eventos permite que varios elementos diferentes puedan responder a un mismo evento.</p>
+
+<p>Si en una página HTML se define un elemento <code>&lt;div&gt;</code> con un botón en su interior, cuando el usuario pulsa sobre el botón, el navegador permite asignar una función de respuesta al botón, otra función de respuesta al <code>&lt;div&gt;</code> que lo contiene y otra función de respuesta a la página completa. De esta forma, un solo evento (la pulsación de un botón) provoca la respuesta de tres elementos de la página (incluyendo la propia página).</p>
+
+<p>El orden en el que se ejecutan los eventos asignados a cada elemento de la página es lo que constituye el flujo de eventos. Además, existen muchas diferencias en el flujo de eventos de cada navegador.</p>
+
+<h3 id="event-bubbling">15.2.1 Event bubbling</h3>
+
+<p>En este modelo de flujo de eventos, el orden que se sigue es desde el elemento más específico hasta el elemento menos específico.</p>
+
+<p>En los próximos ejemplos se emplea la siguiente página HTML:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">html</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"procesaEvento()"</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">head</span>&gt;&lt;<span class="kw2">title</span>&gt;</span>Ejemplo de flujo de eventos<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">title</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">head</span>&gt;</span>
+  <span class="sc2">&lt;<span class="kw2">body</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"procesaEvento()"</span>&gt;</span>
+    <span class="sc2">&lt;<span class="kw2">div</span> <span class="kw3">onclick</span><span class="sy0">=</span><span class="st0">"procesaEvento()"</span>&gt;</span>Pincha aqui<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">div</span>&gt;</span>
+  <span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">body</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><span class="kw2">html</span>&gt;</span></pre>
+</div>
+
+<p>Cuando se pulsa sobre el texto "Pincha aquí" que se encuentra dentro del <code>&lt;div&gt;</code>, se ejecutan los siguientes eventos en el orden que muestra el siguiente esquema:</p>
+
+<div class="figure" id="figure-15-1">
+    <img src="./Eventos _ JavaScript_files/event-bubbling.png" alt="Esquema del funcionamiento del &quot;event bubbling&quot;">
+
+    <p class="caption"><strong>Figura 15.1</strong> Esquema del funcionamiento del "event bubbling"</p>
+</div>
+
+
+<p>El primer evento que se tiene en cuenta es el generado por el <code>&lt;div&gt;</code> que contiene el mensaje. A continuación el navegador recorre los ascendentes del elemento hasta que alcanza el nivel superior, que es el elemento <code>document</code>.</p>
+
+<p>Este modelo de flujo de eventos es el que incluye el navegador Internet Explorer. Los navegadores de la familia Mozilla (por ejemplo Firefox) también soportan este modelo, pero ligeramente modificado. El anterior ejemplo en un navegador de la familia Mozilla presenta el siguiente flujo de eventos:</p>
+
+<div class="figure" id="figure-15-2">
+    <img src="./Eventos _ JavaScript_files/event-bubbling2.png" alt="Esquema del funcionamiento del &quot;event bubbling&quot; en los navegadores de Mozilla">
+
+    <p class="caption"><strong>Figura 15.2</strong> Esquema del funcionamiento del "event bubbling" en los navegadores de Mozilla</p>
+</div>
+
+
+<p>Aunque el objeto <code>window</code> no es parte del DOM, el flujo de eventos implementado por Mozilla recorre los ascendentes del elemento hasta el mismo objeto <code>window</code>, añadiendo por tanto un evento más al modelo de Internet Explorer.</p>
+
+<h3 id="event-capturing">15.2.2 Event capturing</h3>
+
+<p>En ese otro modelo, el flujo de eventos se define desde el elemento menos específico hasta el elemento más específico. En otras palabras, el mecanismo definido es justamente el contrario al "event bubbling". Este modelo lo utilizaba el desaparecido navegador Netscape Navigator 4.0.</p>
+
+<h3 id="eventos-dom">15.2.3 Eventos DOM</h3>
+
+<p>El flujo de eventos definido en la especificación DOM soporta tanto el <em>bubbling</em> como el <em>capturing</em>, pero el <em>"event capturing"</em> se ejecuta en primer lugar. Los dos flujos de eventos recorren todos los objetos DOM desde el objeto <code>document</code> hasta el elemento más específico y viceversa. Además, la mayoría de navegadores que implementan los estándares, continúan el flujo hasta el objeto <code>window</code>.</p>
+
+<p>El flujo de eventos DOM del ejemplo anterior se muestra a continuación:</p>
+
+<div class="figure" id="figure-15-3">
+    <img src="./Eventos _ JavaScript_files/flujo-eventos.png" alt="Esquema del flujo de eventos del modelo DOM">
+
+    <p class="caption"><strong>Figura 15.3</strong> Esquema del flujo de eventos del modelo DOM</p>
+</div>
+
+
+<p>El elemento más específico del flujo de eventos no es el <code>&lt;div&gt;</code> que desencadena la ejecución de los eventos, sino el nodo de tipo <code>TextNode</code> que contiene el <code>&lt;div&gt;</code>. El hecho de combinar los dos flujos de eventos, provoca que el nodo más específico pueda ejecutar dos eventos de forma consecutiva.</p>
+
+<h2 id="handlers-y-listeners">15.3 Handlers y listeners</h2>
+
+<p>En las secciones anteriores se introdujo el concepto de "event handler" o manejador de eventos, que son las funciones que responden a los eventos que se producen. Además, se vieron tres formas de definir los manejadores de eventos para el modelo básico de eventos:</p>
+
+<ol>
+<li>Código JavaScript dentro de un atributo del propio elemento HTML</li>
+<li>Definición del evento en el propio elemento HTML pero el manejador es una función externa</li>
+<li>Manejadores semánticos asignados mediante DOM sin necesidad de modificar el código HTML de la página</li>
+</ol>
+
+<p>Cualquiera de estos tres modelos funciona correctamente en todos los navegadores disponibles en la actualidad. Las diferencias entre navegadores surgen cuando se define más de un manejador de eventos para un mismo evento de un elemento. La forma de asignar y <em>"desasignar"</em> manejadores múltiples depende completamente del navegador utilizado.</p>
+
+<h3 id="manejadores-de-eventos-de-dom">15.3.1 Manejadores de eventos de DOM</h3>
+
+<p>La especificación DOM define otros dos métodos similares a los disponibles para Internet Explorer y denominados <code>addEventListener()</code> y <code>removeEventListener()</code> para asociar y desasociar manejadores de eventos.</p>
+
+<p>La principal diferencia entre estos métodos y los anteriores es que en este caso se requieren tres parámetros: el nombre del <em>"event listener"</em>, una referencia a la función encargada de procesar el evento y el tipo de flujo de eventos al que se aplica.</p>
+
+<p>El primer argumento no es el nombre completo del evento como sucede en el modelo de Internet Explorer, sino que se debe eliminar el prefijo <code>on</code>. En otras palabras, si en Internet Explorer se utilizaba el nombre <code>onclick</code>, ahora se debe utilizar <code>click</code>.</p>
+
+<p>Si el tercer parámetro es <code>true</code>, el manejador se emplea en la fase de <em>capture</em>. Si el tercer parámetro es <code>false</code>, el manejador se asocia a la fase de <em>bubbling</em>.</p>
+
+<p>A continuación, se muestran los ejemplos anteriores empleando los métodos definidos por DOM:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has pulsado el ratón"</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+<span class="kw1">var</span> elDiv <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"div_principal"</span><span class="br0">)</span><span class="sy0">;</span>
+elDiv.<span class="me1">addEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraMensaje<span class="sy0">,</span> <span class="kw2">false</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Más adelante se decide desasociar la función al evento</span>
+elDiv.<span class="me1">removeEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraMensaje<span class="sy0">,</span> <span class="kw2">false</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Asociando múltiples funciones a un único evento:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has pulsado el ratón"</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+<span class="kw1">function</span> muestraOtroMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has pulsado el ratón y por eso se muestran estos mensajes"</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+<span class="kw1">var</span> elDiv <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"div_principal"</span><span class="br0">)</span><span class="sy0">;</span>
+elDiv.<span class="me1">addEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraMensaje<span class="sy0">,</span> <span class="kw2">true</span><span class="br0">)</span><span class="sy0">;</span>
+elDiv.<span class="me1">addEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraOtroMensaje<span class="sy0">,</span> <span class="kw2">true</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Si se asocia una función a un flujo de eventos determinado, esa función sólo se puede desasociar en el mismo tipo de flujo de eventos. Si se considera el siguiente ejemplo:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> muestraMensaje<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has pulsado el ratón"</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+<span class="kw1">var</span> elDiv <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"div_principal"</span><span class="br0">)</span><span class="sy0">;</span>
+elDiv.<span class="me1">addEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraMensaje<span class="sy0">,</span> <span class="kw2">false</span><span class="br0">)</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Más adelante se decide desasociar la función al evento</span>
+elDiv.<span class="me1">removeEventListener</span><span class="br0">(</span><span class="st0">"click"</span><span class="sy0">,</span> muestraMensaje<span class="sy0">,</span> <span class="kw2">true</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>La última instrucción intenta desasociar la función <code>muestraMensaje</code> en el flujo de eventos de <em>capture</em>, mientras que al asociarla, se indicó el flujo de eventos de <em>bubbling</em>. Aunque la ejecución de la aplicación no se detiene y no se produce ningún error, la última instrucción no tiene ningún efecto.</p>
+
+<h2 id="el-objeto-event">15.4 El objeto event</h2>
+
+<p>Cuando se produce un evento, no es suficiente con asignarle una función responsable de procesar ese evento. Normalmente, la función que procesa el evento necesita información relativa al evento producido: la tecla que se ha pulsado, la posición del ratón, el elemento que ha producido el evento, etc.</p>
+
+<p>El objeto <code>event</code> es el mecanismo definido por los navegadores para proporcionar toda esa información. Se trata de un objeto que se crea automáticamente cuando se produce un evento y que se destruye de forma automática cuando se han ejecutado todas las funciones asignadas al evento.</p>
+
+<p>El estándar DOM especifica que el objeto <code>event</code> es el único parámetro que se debe pasar a las funciones encargadas de procesar los eventos. Por tanto, en los navegadores que siguen los estándares, se puede acceder al objeto <code>event</code> a través del array de los argumentos de la función:</p>
+
+<div class="code javascript">
+<pre class="javascript">elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> elEvento <span class="sy0">=</span> arguments<span class="br0">[</span><span class="nu0">0</span><span class="br0">]</span><span class="sy0">;</span>
+<span class="br0">}</span></pre>
+</div>
+
+<p>También es posible indicar el nombre argumento de forma explícita:</p>
+
+<div class="code javascript">
+<pre class="javascript">elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">(</span>event<span class="br0">)</span> <span class="br0">{</span>
+  ...
+<span class="br0">}</span></pre>
+</div>
+
+<p>El funcionamiento de los navegadores que siguen los estándares puede parecer "mágico", ya que en la declaración de la función se indica que tiene un parámetro, pero en la aplicación no se pasa ningún parámetro a esa función. En realidad, los navegadores que siguen los estándares crean automáticamente ese parámetro y lo pasan siempre a la función encargada de manejar el evento.</p>
+
+<h3 id="propiedades-y-metodos">15.4.1 Propiedades y métodos</h3>
+
+<p>A pesar de que el mecanismo definido por los navegadores para el objeto <code>event</code> es similar, existen numerosas diferencias en cuanto las propiedades y métodos del objeto.</p>
+
+<h4 id="propiedades-definidas-por-dom">15.4.1.1 Propiedades definidas por DOM</h4>
+
+<p>La siguiente tabla recoge las propiedades definidas para el objeto <code>event</code> en los navegadores que siguen los estándares:</p>
+
+<div class="table" id="table-15-2">
+
+    <table>
+<thead>
+<tr>
+  <th>Propiedad/Método</th>
+  <th>Devuelve</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>altKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>ALT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>bubbles</code></td>
+  <td>Boolean</td>
+  <td>Indica si el evento pertenece al flujo de eventos de bubbling</td>
+</tr>
+<tr>
+  <td><code>button</code></td>
+  <td>Número entero</td>
+  <td>El botón del ratón que ha sido pulsado. Posibles valores: <code>0</code> – Ningún botón pulsado <code>1</code> – Se ha pulsado el botón <code>izquierdo</code>2<code>– Se ha pulsado el botón derecho</code>3<code>– Se pulsan a la vez el botón izquierdo y el derecho</code>4<code>– Se ha pulsado el botón central</code>5<code>– Se pulsan a la vez el botón izquierdo y el central</code>6<code>– Se pulsan a la vez el botón derecho y el central</code>7` – Se pulsan a la vez los 3 botones</td>
+</tr>
+<tr>
+  <td><code>cancelable</code></td>
+  <td>Boolean</td>
+  <td>Indica si el evento se puede cancelar</td>
+</tr>
+<tr>
+  <td><code>cancelBubble</code></td>
+  <td>Boolean</td>
+  <td>Indica si se ha detenido el flujo de eventos de tipo <em>bubbling</em></td>
+</tr>
+<tr>
+  <td><code>charCode</code></td>
+  <td>Número entero</td>
+  <td>El código unicode del carácter correspondiente a la tecla pulsada</td>
+</tr>
+<tr>
+  <td><code>clientX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>clientY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto del área visible de la ventana</td>
+</tr>
+<tr>
+  <td><code>ctrlKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>CTRL</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>currentTarget</code></td>
+  <td>Element</td>
+  <td>El elemento que es el objetivo del evento</td>
+</tr>
+<tr>
+  <td><code>detail</code></td>
+  <td>Número entero</td>
+  <td>El número de veces que se han pulsado los botones del ratón</td>
+</tr>
+<tr>
+  <td><code>eventPhase</code></td>
+  <td>Número entero</td>
+  <td>La fase a la que pertenece el evento: <code>0</code> – Fase capturing <code>1</code> – En el elemento destino <code>2</code> – Fase bubbling</td>
+</tr>
+<tr>
+  <td><code>isChar</code></td>
+  <td>Boolean</td>
+  <td>Indica si la tecla pulsada corresponde a un carácter</td>
+</tr>
+<tr>
+  <td><code>keyCode</code></td>
+  <td>Número entero</td>
+  <td>Indica el código numérico de la tecla pulsada</td>
+</tr>
+<tr>
+  <td><code>metaKey</code></td>
+  <td>Número entero</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>META</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>pageX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto de la página</td>
+</tr>
+<tr>
+  <td><code>pageY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto de la página</td>
+</tr>
+<tr>
+  <td><code>preventDefault()</code></td>
+  <td>Función</td>
+  <td>Se emplea para cancelar la acción predefinida del evento</td>
+</tr>
+<tr>
+  <td><code>relatedTarget</code></td>
+  <td>Element</td>
+  <td>El elemento que es el objetivo secundario del evento (relacionado con los eventos de ratón)</td>
+</tr>
+<tr>
+  <td><code>screenX</code></td>
+  <td>Número entero</td>
+  <td>Coordenada X de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>screenY</code></td>
+  <td>Número entero</td>
+  <td>Coordenada Y de la posición del ratón respecto de la pantalla completa</td>
+</tr>
+<tr>
+  <td><code>shiftKey</code></td>
+  <td>Boolean</td>
+  <td>Devuelve <code>true</code> si se ha pulsado la tecla <code>SHIFT</code> y <code>false</code> en otro caso</td>
+</tr>
+<tr>
+  <td><code>stopPropagation()</code></td>
+  <td>Función</td>
+  <td>Se emplea para detener el flujo de eventos de tipo bubbling</td>
+</tr>
+<tr>
+  <td><code>target</code></td>
+  <td>Element</td>
+  <td>El elemento que origina el evento</td>
+</tr>
+<tr>
+  <td><code>timeStamp</code></td>
+  <td>Número</td>
+  <td>La fecha y hora en la que se ha producido el evento</td>
+</tr>
+<tr>
+  <td><code>type</code></td>
+  <td>Cadena de texto</td>
+  <td>El nombre del evento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Al contrario de lo que sucede con Internet Explorer, la mayoría de propiedades del objeto <code>event</code> de DOM son de sólo lectura. En concreto, solamente las siguientes propiedades son de lectura y escritura: <code>altKey</code>, <code>button</code> y <code>keyCode</code>.</p>
+
+<p>La tecla <code>META</code> es una tecla especial que se encuentra en algunos teclados de ordenadores muy antiguos. Actualmente, en los ordenadores tipo PC se asimila a la tecla <code>Alt</code> o a la tecla de Windows, mientras que en los ordenadores tipo Mac se asimila a la tecla <code>Command</code>.</p>
+
+<h3 id="similitudes-y-diferencias-entre-navegadores">15.4.2 Similitudes y diferencias entre navegadores</h3>
+
+<h4 id="similitudes">15.4.2.1 Similitudes</h4>
+
+<p>En ambos casos se utiliza la propiedad type para obtener el tipo de evento que se trata:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> procesaEvento<span class="br0">(</span>elEvento<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">if</span><span class="br0">(</span>elEvento.<span class="me1">type</span> <span class="sy0">==</span> <span class="st0">"click"</span><span class="br0">)</span> <span class="br0">{</span>
+    console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has pulsado el raton"</span><span class="br0">)</span><span class="sy0">;</span>
+  <span class="br0">}</span>
+  <span class="kw1">else</span> <span class="kw1">if</span><span class="br0">(</span>elEvento.<span class="me1">type</span> <span class="sy0">==</span> <span class="st0">"mouseover"</span><span class="br0">)</span> <span class="br0">{</span>
+    console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"Has movido el raton"</span><span class="br0">)</span><span class="sy0">;</span>
+  <span class="br0">}</span>
+<span class="br0">}</span>
+&nbsp;
+elDiv.<span class="me1">onclick</span> <span class="sy0">=</span> procesaEvento<span class="sy0">;</span>
+elDiv.<span class="me1">onmouseover</span> <span class="sy0">=</span> procesaEvento<span class="sy0">;</span></pre>
+</div>
+
+<p>Mientras que el manejador del evento incluye el prefijo <code>on</code> en su nombre, el tipo de evento devuelto por la propiedad <code>type</code> prescinde de ese prefijo. Por eso en el ejemplo anterior se compara su valor con <code>click</code> y <code>mouseover</code> y no con <code>onclick</code> y <code>onmouseover</code>.</p>
+
+<p>Otra similitud es el uso de la propiedad <code>keyCode</code> para obtener el código correspondiente al carácter de la tecla que se ha pulsado. La tecla pulsada no siempre representa un carácter alfanumérico. Cuando se pulsa la tecla <code>ENTER</code> por ejemplo, se obtiene el código <code>13</code>. La barra espaciadora se corresponde con el código <code>32</code> y la tecla de borrado tiene un código igual a <code>8</code>.</p>
+
+<p>Una forma más inmediata de comprobar si se han pulsado algunas teclas especiales, es utilizar las propiedades <code>shiftKey</code>, <code>altKey</code> y <code>ctrlKey</code>.</p>
+
+<p>Para obtener la posición del ratón respecto de la parte visible de la ventana, se emplean las propiedades <code>clientX</code> y <code>clientY</code>. De la misma forma, para obtener la posición del puntero del ratón respecto de la pantalla completa, se emplean las propiedades <code>screenX</code> y <code>screenY</code>.</p>
+
+<h4 id="diferencias">15.4.2.2 Diferencias</h4>
+
+<p>Una de las principales diferencias es la forma en la que se obtiene el elemento que origina el evento. Si un elemento <code>&lt;div&gt;</code> tiene asignado un evento <code>onclick</code>, al pulsar con el ratón el interior del <code>&lt;div&gt;</code> se origina un evento cuyo objetivo es el elemento <code>&lt;div&gt;</code>.</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Internet Explorer</span>
+<span class="kw1">var</span> objetivo <span class="sy0">=</span> elEvento.<span class="me1">srcElement</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">// Navegadores que siguen los estandares</span>
+<span class="kw1">var</span> objetivo <span class="sy0">=</span> elEvento.<span class="me1">target</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Otra diferencia importante es la relativa a la obtención del carácter correspondiente a la tecla pulsada. Cada tecla pulsada tiene asociados dos códigos diferentes: el primero es el código de la tecla que ha sido presionada y el otro código es el que se refiere al carácter pulsado.</p>
+
+<p>El primer código es un código de tecla interno para JavaScript. El segundo código coincide con el código ASCII del carácter. De esta forma, la letra <code>a</code> tiene un código interno igual a <code>65</code> y un código ASCII de <code>97</code>. Por otro lado, la letra <code>A</code> tiene un código interno también de <code>65</code> y un código ASCII de <code>95</code>.</p>
+
+<p>En Internet Explorer, el contenido de la propiedad <code>keyCode</code> depende de cada evento. En los eventos de "pulsación de teclas" (<code>onkeyup</code> y <code>onkeydown</code>) su valor es igual al código interno. En los eventos de "escribir con teclas" (<code>onkeypress</code>) su valor es igual al código ASCII del carácter pulsado.</p>
+
+<p>Por el contrario, en los navegadores que siguen los estándares la propiedad <code>keyCode</code> es igual al código interno en los eventos de "pulsación de teclas" (<code>onkeyup</code> y <code>onkeydown</code>) y es igual a <code>0</code> en los eventos de "escribir con teclas" (<code>onkeypress</code>).</p>
+
+<p>En la práctica, esto supone que en los eventos <code>onkeyup</code> y <code>onkeydown</code> se puede utilizar la misma propiedad en todos los navegadores:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">(</span>elEvento<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento <span class="sy0">||</span> window.<span class="me1">event</span><span class="sy0">;</span>
+  console.<span class="me1">log</span><span class="br0">(</span><span class="st0">"["</span><span class="sy0">+</span>evento.<span class="me1">type</span><span class="sy0">+</span><span class="st0">"] El código de la tecla pulsada es "</span> <span class="sy0">+</span> evento.<span class="me1">keyCode</span><span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+document.<span class="me1">onkeyup</span> <span class="sy0">=</span> manejador<span class="sy0">;</span>
+document.<span class="me1">onkeydown</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>En este caso, si se carga la página en cualquier navegador y se pulsa por ejemplo la tecla a, se muestra el siguiente mensaje:</p>
+
+<div class="figure" id="figure-15-4">
+    <img src="./Eventos _ JavaScript_files/keydown.png" alt="Mensaje mostrado en el navegador Firefox">
+
+    <p class="caption"><strong>Figura 15.4</strong> Mensaje mostrado en el navegador Firefox</p>
+</div>
+
+
+<p>La gran diferencia se produce al intentar obtener el carácter que se ha pulsado, en este caso la letra <code>a</code>. Para obtener la letra, en primer lugar se debe obtener su código ASCII. Como se ha comentado, en Internet Explorer el valor de la propiedad <code>keyCode</code> en el evento <code>onkeypress</code> es igual al carácter ASCII:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">(</span><span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> window.<span class="me1">event</span><span class="sy0">;</span></pre>
+</div>
+
+<div class="code code">
+<pre class="code">  // Internet Explorer
+  var codigo = evento.keyCode;
+}
+&nbsp;
+document.onkeypress = manejador;</pre>
+</div>
+
+<p>Sin embargo, en los navegadores que no son Internet Explorer, el código anterior es igual a <code>0</code> para cualquier tecla pulsada. En estos navegadores que siguen los estándares, se debe utilizar la propiedad <code>charCode</code>, que devuelve el código de la tecla pulsada, pero solo para el evento <code>onkeypress</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">(</span>elEvento<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento<span class="sy0">;</span></pre>
+</div>
+
+<div class="code code">
+<pre class="code">  // Navegadores que siguen los estándares
+  var codigo = evento.charCode;
+}
+&nbsp;
+document.onkeypress = manejador;</pre>
+</div>
+
+<p>Una vez obtenido el código en cada navegador, se debe utilizar la función <code>String.fromCharCode()</code> para obtener el carácter cuyo código ASCII se pasa como parámetro. Por tanto, la solución completa para obtener la tecla pulsada en cualquier navegador es la siguiente:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> manejador<span class="br0">(</span>elEvento<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> evento <span class="sy0">=</span> elEvento <span class="sy0">||</span> window.<span class="me1">event</span><span class="sy0">;</span>
+  <span class="kw1">var</span> codigo <span class="sy0">=</span> evento.<span class="me1">charCode</span> <span class="sy0">||</span> evento.<span class="me1">keyCode</span><span class="sy0">;</span>
+  <span class="kw1">var</span> caracter <span class="sy0">=</span> <span class="kw4">String</span>.<span class="me1">fromCharCode</span><span class="br0">(</span>codigo<span class="br0">)</span><span class="sy0">;</span>
+<span class="br0">}</span>
+&nbsp;
+document.<span class="me1">onkeypress</span> <span class="sy0">=</span> manejador<span class="sy0">;</span></pre>
+</div>
+
+<p>Una de las propiedades más interesantes es la posibilidad de impedir que se complete el comportamiento normal de un evento. En otras palabras, con JavaScript es posible no mostrar ningún carácter cuando se pulsa una tecla, no enviar un formulario después de pulsar el botón de envío, no cargar ninguna página al pulsar un enlace, etc. El método avanzado de impedir que un evento ejecute su acción asociada depende de cada navegador:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Navegadores que siguen los estandares</span>
+elEvento.<span class="me1">preventDefault</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>En el modelo básico de eventos también es posible impedir el comportamiento por defecto de algunos eventos. Si por ejemplo en un elemento <code>&lt;textarea&gt;</code> se indica el siguiente manejador de eventos:</p>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">textarea</span> <span class="kw3">onkeypress</span><span class="sy0">=</span><span class="st0">"return false;"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">textarea</span>&gt;</span></pre>
+</div>
+
+<p>En el <code>&lt;textarea&gt;</code> anterior no será posible escribir ningún carácter, ya que el manejador de eventos devuelve <code>false</code> y ese es el valor necesario para impedir que se termine de ejecutar el evento y por tanto para evitar que la letra se escriba.</p>
+
+<p>Así, es posible definir manejadores de eventos que devuelvan <code>true</code> o <code>false</code> en función de algunos parámetros. Por ejemplo se puede diseñar un limitador del número de caracteres que se pueden escribir en un <code>&lt;textarea&gt;</code>:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="kw1">function</span> limita<span class="br0">(</span>maximoCaracteres<span class="br0">)</span> <span class="br0">{</span>
+  <span class="kw1">var</span> elemento <span class="sy0">=</span> document.<span class="me1">getElementById</span><span class="br0">(</span><span class="st0">"texto"</span><span class="br0">)</span><span class="sy0">;</span>
+  <span class="kw1">if</span><span class="br0">(</span>elemento.<span class="me1">value</span>.<span class="me1">length</span> <span class="sy0">&gt;=</span> maximoCaracteres <span class="br0">)</span> <span class="br0">{</span>
+    <span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+  <span class="br0">}</span>
+  <span class="kw1">else</span> <span class="br0">{</span>
+    <span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+  <span class="br0">}</span>
+<span class="br0">}</span></pre>
+</div>
+
+<div class="code html">
+<pre class="html5"><span class="sc2">&lt;<span class="kw2">textarea</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">"texto"</span> <span class="kw3">onkeypress</span><span class="sy0">=</span><span class="st0">"return limita(100);"</span>&gt;&lt;<span class="sy0">/</span><span class="kw2">textarea</span>&gt;</span></pre>
+</div>
+
+<p>El funcionamiento del ejemplo anterior se detalla a continuación:</p>
+
+<ol>
+<li>Se utiliza el evento <code>onkeypress</code> para controlar si la tecla se escribe o no.</li>
+<li>En el manejador del evento se devuelve el valor devuelto por la función externa <code>limita()</code> a la que se pasa como parámetro el valor <code>100</code>.</li>
+<li>Si el valor devuelto por <code>limita()</code> es <code>true</code>, el evento se produce de forma normal y el carácter se escribe en el <code>&lt;textarea&gt;</code>. Si el valor devuelto por <code>limita()</code> es <code>false</code>, el evento no se produce y por tanto el carácter no se escribe en el <code>&lt;textarea&gt;</code>.</li>
+<li>La función <code>limita()</code> devuelve <code>true</code> o <code>false</code> después de comprobar si el número de caracteres del <code>&lt;textarea&gt;</code> es superior o inferior al máximo número de caracteres que se le ha pasado como parámetro.</li>
+</ol>
+
+<p>El objeto <code>event</code> también permite detener completamente la ejecución del flujo normal de eventos:</p>
+
+<div class="code javascript">
+<pre class="javascript"><span class="co1">// Navegadores que siguen los estandares</span>
+elEvento.<span class="me1">stopPropagation</span><span class="br0">(</span><span class="br0">)</span><span class="sy0">;</span></pre>
+</div>
+
+<p>Al detener el flujo de eventos pendientes, se invalidan y no se ejecutan los eventos que restan desde ese momento hasta que se recorren todos los elementos pendientes hasta el elemento <code>window</code>.</p>
+
+<h2 id="tipos-de-eventos-2">15.5 Tipos de eventos</h2>
+
+<p>La lista completa de eventos que se pueden generar en un navegador se puede dividir en cuatro grandes grupos. La especificación de DOM define los siguientes grupos:</p>
+
+<ul>
+<li>Eventos de ratón: se originan cuando el usuario emplea el ratón para realizar algunas acciones.</li>
+<li>Eventos de teclado: se originan cuando el usuario pulsa sobre cualquier tecla de su teclado.</li>
+<li>Eventos HTML: se originan cuando se producen cambios en la ventana del navegador o cuando se producen ciertas interacciones entre el cliente y el servidor.</li>
+<li>Eventos DOM: se originan cuando se produce un cambio en la estructura DOM de la página. También se denominan "eventos de mutación".</li>
+</ul>
+
+<h3 id="eventos-de-raton">15.5.1 Eventos de ratón</h3>
+
+<p>Los eventos de ratón son, con mucha diferencia, los más empleados en las aplicaciones web. Los eventos que se incluyen en esta clasificación son los siguientes:</p>
+
+<div class="table" id="table-15-3">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>click</code></td>
+  <td>Se produce cuando se pulsa el botón izquierdo del ratón. También se produce cuando el foco de la aplicación está situado en un botón y se pulsa la tecla <code>ENTER</code></td>
+</tr>
+<tr>
+  <td><code>dblclick</code></td>
+  <td>Se produce cuando se pulsa dos veces el botón izquierdo del ratón</td>
+</tr>
+<tr>
+  <td><code>mousedown</code></td>
+  <td>Se produce cuando se pulsa cualquier botón del ratón</td>
+</tr>
+<tr>
+  <td><code>mouseout</code></td>
+  <td>Se produce cuando el puntero del ratón se encuentra en el interior de un elemento y el usuario mueve el puntero a un lugar fuera de ese elemento</td>
+</tr>
+<tr>
+  <td><code>mouseover</code></td>
+  <td>Se produce cuando el puntero del ratón se encuentra fuera de un elemento y el usuario mueve el puntero hacia un lugar en el interior del elemento</td>
+</tr>
+<tr>
+  <td><code>mouseup</code></td>
+  <td>Se produce cuando se suelta cualquier botón del ratón que haya sido pulsado</td>
+</tr>
+<tr>
+  <td><code>mousemove</code></td>
+  <td>Se produce (de forma continua) cuando el puntero del ratón se encuentra sobre un elemento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Todos los elementos de las páginas soportan los eventos de la tabla anterior.</p>
+
+<h4 id="propiedades">15.5.1.1 Propiedades</h4>
+
+<p>El objeto event contiene las siguientes propiedades para los eventos de ratón:</p>
+
+<ul>
+<li>Las coordenadas del ratón (todas las coordenadas diferentes relativas a los distintos elementos)</li>
+<li>La propiedad <code>type</code></li>
+<li>La propiedad <code>srcElement</code> (Internet Explorer) o <code>target</code> (DOM)</li>
+<li>Las propiedades <code>shiftKey</code>, <code>ctrlKey</code>, <code>altKey</code> y <code>metaKey</code> (sólo DOM)</li>
+<li>La propiedad <code>button</code> (sólo en los eventos <code>mousedown</code>, <code>mousemove</code>, <code>mouseout</code>, <code>mouseover</code> y <code>mouseup</code>)</li>
+</ul>
+
+<p>Los eventos <code>mouseover</code> y <code>mouseout</code> tienen propiedades adicionales. Internet Explorer define la propiedad <code>fromElement</code>, que hace referencia al elemento desde el que el puntero del ratón se ha movido y <code>toElement</code> que es el elemento al que el puntero del ratón se ha movido. De esta forma, en el evento <code>mouseover</code>, la propiedad <code>toElement</code> es idéntica a <code>srcElement</code> y en el evento <code>mouseout</code>, la propiedad <code>fromElement</code> es idéntica a <code>srcElement</code>.</p>
+
+<p>En los navegadores que soportan el estándar DOM, solamente existe una propiedad denominada <code>relatedTarget</code>. En el evento <code>mouseout</code>, <code>relatedTarget</code> apunta al elemento al que se ha movido el ratón. En el evento <code>mouseover</code>, <code>relatedTarget</code> apunta al elemento desde el que se ha movido el puntero del ratón.</p>
+
+<p>Cuando se pulsa un botón del ratón, la secuencia de eventos que se produce es la siguiente: <code>mousedown</code>, <code>mouseup</code>, <code>click</code>. Por tanto, la secuencia de eventos necesaria para llegar al doble click llega a ser tan compleja como la siguiente: <code>mousedown</code>, <code>mouseup</code>, <code>click</code>, <code>mousedown</code>, <code>mouseup</code>, <code>click</code>, <code>dblclick</code>.</p>
+
+<h3 id="eventos-de-teclado">15.5.2 Eventos de teclado</h3>
+
+<p>Los eventos que se incluyen en esta clasificación son los siguientes:</p>
+
+<div class="table" id="table-15-4">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>keydown</code></td>
+  <td>Se produce cuando se pulsa cualquier tecla del teclado. También se produce de forma continua si se mantiene pulsada la tecla</td>
+</tr>
+<tr>
+  <td><code>keypress</code></td>
+  <td>Se produce cuando se pulsa una tecla correspondiente a un carácter alfanumérico (no se tienen en cuenta telas como <code>SHIFT</code>, <code>ALT</code>, etc.). También se produce de forma continua si se mantiene pulsada la tecla</td>
+</tr>
+<tr>
+  <td><code>keyup</code></td>
+  <td>Se produce cuando se suelta cualquier tecla pulsada</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<h4 id="propiedades-2">15.5.2.1 Propiedades</h4>
+
+<p>El objeto event contiene las siguientes propiedades para los eventos de teclado:</p>
+
+<ul>
+<li>La propiedad <code>keyCode</code></li>
+<li>La propiedad <code>charCode</code> (sólo DOM)</li>
+<li>La propiedad <code>srcElement</code> (Internet Explorer) o <code>target</code> (DOM)</li>
+<li>Las propiedades <code>shiftKey</code>, <code>ctrlKey</code>, <code>altKey</code> y <code>metaKey</code> (sólo DOM)</li>
+</ul>
+
+<p>Cuando se pulsa una tecla correspondiente a un carácter alfanumérico, se produce la siguiente secuencia de eventos: <code>keydown</code>, <code>keypress</code>, <code>keyup</code>. Cuando se pulsa otro tipo de tecla, se produce la siguiente secuencia de eventos: <code>keydown</code>, <code>keyup</code>. Si se mantiene pulsada la tecla, en el primer caso se repiten de forma continua los eventos <code>keydown</code> y <code>keypress</code> y en el segundo caso, se repite el evento <code>keydown</code> de forma continua.</p>
+
+<h3 id="eventos-html">15.5.3 Eventos HTML</h3>
+
+<p>Los eventos HTML definidos se recogen en la siguiente tabla:</p>
+
+<div class="table" id="table-15-5">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>load</code></td>
+  <td>Se produce en el objeto window cuando la página se carga por completo. En el elemento <code>&lt;img&gt; cuando se carga por completo la imagen. En el elemento</code><object>` cuando se carga el objeto</object></td>
+</tr>
+<tr>
+  <td><code>unload</code></td>
+  <td>Se produce en el objeto window cuando la página desaparece por completo (al cerrar la ventana del navegador por ejemplo). En el elemento <code>&lt;object&gt;</code> cuando desaparece el objeto.</td>
+</tr>
+<tr>
+  <td><code>abort</code></td>
+  <td>Se produce en un elemento <code>&lt;object&gt;</code> cuando el usuario detiene la descarga del elemento antes de que haya terminado</td>
+</tr>
+<tr>
+  <td><code>error</code></td>
+  <td>Se produce en el objeto window cuando se produce un error de JavaScript. En el elemento <code>&lt;img&gt;</code> cuando la imagen no se ha podido cargar por completo y en el elemento <code>&lt;object&gt;</code> cuando el elemento no se carga correctamente</td>
+</tr>
+<tr>
+  <td><code>select</code></td>
+  <td>Se produce cuando se seleccionan varios caracteres de un cuadro de texto (<code>&lt;input&gt;</code> y <code>&lt;textarea&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>change</code></td>
+  <td>Se produce cuando un cuadro de texto (<code>&lt;input&gt;</code> y <code>&lt;textarea&gt;</code>) pierde el foco y su contenido ha variado. También se produce cuando varía el valor de un elemento <code>&lt;select&gt;</code></td>
+</tr>
+<tr>
+  <td><code>submit</code></td>
+  <td>Se produce cuando se pulsa sobre un botón de tipo submit (<code>&lt;input type="submit"&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>reset</code></td>
+  <td>Se produce cuando se pulsa sobre un botón de tipo reset (<code>&lt;input type="reset"&gt;</code>)</td>
+</tr>
+<tr>
+  <td><code>resize</code></td>
+  <td>Se produce en el objeto window cuando se redimensiona la ventana del navegador</td>
+</tr>
+<tr>
+  <td><code>scroll</code></td>
+  <td>Se produce en cualquier elemento que tenga una barra de scroll, cuando el usuario la utiliza. El elemento <code>&lt;body&gt;</code> contiene la barra de scroll de la página completa</td>
+</tr>
+<tr>
+  <td><code>focus</code></td>
+  <td>Se produce en cualquier elemento (incluido el objeto window) cuando el elemento obtiene el foco</td>
+</tr>
+<tr>
+  <td><code>blur</code></td>
+  <td>Se produce en cualquier elemento (incluido el objeto window) cuando el elemento pierde el foco</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<p>Uno de los eventos más utilizados es el evento <code>load</code>, ya que todas las manipulaciones que se realizan mediante DOM requieren que la página esté cargada por completo y por tanto, el árbol DOM se haya construido completamente.</p>
+
+<p>El elemento <code>&lt;body&gt;</code> define las propiedades <code>scrollLeft</code> y <code>scrollTop</code> que se pueden emplear junto con el evento <code>scroll</code>.</p>
+
+<h3 id="eventos-dom-2">15.5.4 Eventos DOM</h3>
+
+<p>Aunque los eventos de este tipo son parte de la especificación oficial de DOM, aún no han sido implementados en todos los navegadores. La siguiente tabla recoge los eventos más importantes de este tipo:</p>
+
+<div class="table" id="table-15-6">
+
+    <table>
+<thead>
+<tr>
+  <th>Evento</th>
+  <th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>DOMSubtreeModified</code></td>
+  <td>Se produce cuando se añaden o eliminan nodos en el subárbol de un documento o elemento</td>
+</tr>
+<tr>
+  <td><code>DOMNodeInserted</code></td>
+  <td>Se produce cuando se añade un nodo como hijo de otro nodo</td>
+</tr>
+<tr>
+  <td><code>DOMNodeRemoved</code></td>
+  <td>Se produce cuando se elimina un nodo que es hijo de otro nodo</td>
+</tr>
+<tr>
+  <td><code>DOMNodeRemovedFromDocument</code></td>
+  <td>Se produce cuando se elimina un nodo del documento</td>
+</tr>
+<tr>
+  <td><code>DOMNodeInsertedIntoDocument</code></td>
+  <td>Se produce cuando se añade un nodo al documento</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+<div class="exercise">
+  <p class="title">Ejercicio 17</p>
+</div>
+
+<p><a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-18.html#ej17">Ver enunciado</a></p>
+
+<div class="exercise">
+  <p class="title">Ejercicio 18</p>
+</div>
+
+<p><a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-18.html#ej18">Ver enunciado</a></p>
+
+<div class="exercise">
+  <p class="title">Ejercicio 19</p>
+</div>
+
+<p><a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-18.html#ej19">Ver enunciado</a></p>
+
+    </div>
+
+    <div class="span3">
+        <div class="item local_toc">
+            <h3>Índice de contenidos</h3>
+
+            <ul class="unstyled">
+                                                <li class="level-1">
+                        <span></span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#eventos">Eventos</a>
+                    </li>
+                                    <li class="level-2">
+                        <span>15.1</span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#tipos-de-eventos">Tipos de eventos</a>
+                    </li>
+                                    <li class="level-2">
+                        <span>15.2</span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#el-flujo-de-eventos">El flujo de eventos</a>
+                    </li>
+                                    <li class="level-2">
+                        <span>15.3</span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#handlers-y-listeners">Handlers y listeners</a>
+                    </li>
+                                    <li class="level-2">
+                        <span>15.4</span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#el-objeto-event">El objeto event</a>
+                    </li>
+                                    <li class="level-2">
+                        <span>15.5</span>
+                        <a class="internal" href="https://www.arkaitzgarro.com/javascript/capitulo-15.html#tipos-de-eventos-2">Tipos de eventos</a>
+                    </li>
+                                        </ul>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div style="position: fixed; top: 0px; left: 0px; width: 0px; height: 0px; background: rgba(0, 0, 0, 0); text-align: center; z-index: 99999;"><iframe title="Buy Me a Coffee" style="position: fixed; margin: 0px; border: 0px; right: 18px; bottom: 98px; height: 0px; opacity: 0; width: calc(100% - 38px); max-width: 350px; border-radius: 10px; box-shadow: rgba(13, 12, 34, 0.1) -6px 0px 30px; background: url(&quot;https://cdn.buymeacoffee.com/assets/img/widget/loader.svg&quot;) center center / 64px no-repeat rgb(255, 255, 255); z-index: 999999; transition: all 0.4s ease 0s; max-height: 620px;" src="./Eventos _ JavaScript_files/saved_resource.html"></iframe></div><div id="bmc-wbtn" style="display: flex; align-items: center; justify-content: center; width: 64px; height: 64px; background: red; color: white; border-radius: 32px; position: fixed; right: 18px; bottom: 18px; box-shadow: rgba(0, 0, 0, 0.4) 0px 4px 8px; z-index: 9999; cursor: pointer; font-weight: 600; transition: all 0.2s ease 0s;"><img src="./Eventos _ JavaScript_files/coffee cup.svg" alt="Buy Me A Coffee" style="height: 40px; width: 40px; margin: 0; padding: 0;"></div><div style="position: fixed; right: 102px; bottom: 16px; background: rgb(255, 255, 255); z-index: 9999; box-shadow: rgba(13, 12, 34, 0.1) -6px 0px 30px; padding: 23px 24px; border-radius: 4px; font-size: 18px; color: rgb(13, 12, 34); width: auto; max-width: 260px; line-height: 1.5; font-family: &quot;Avenir Book1&quot;, &quot;Avenir Book2&quot;, &quot;Avenir Book3&quot;, &quot;Avenir Book4&quot;, &quot;Avenir Book5&quot;, &quot;Avenir Book6&quot;, sans-serif; display: none; opacity: 0;">¡Gracias por tu visita! Si consideras que este contenido te ha ayudado en tu carrera, te agradeccería que pudieses comprarme un cafe. Sin tu ayuda, no puedo asegurar que este sitio web se pueda mantener online durante mucho mas tiempo...</div></body></html>
