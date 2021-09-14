@@ -1,6 +1,6 @@
 import { pages } from './lib/templates.js';
 import {
-  objMain, fnPageSignUp, fnPagesLogin, fnLogin, fnAuthGoogle,
+  objMain, fnPageSignUp, fnLogin, fnAuthGoogle,
 } from './lib/FnLogics.js';
 import {
   sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillPosted, getUsersFireBase, fnMakeLike,
