@@ -672,8 +672,6 @@ flex-direction: row;
   padding: .5em 0em .5em 0em;
   width: 100%;
   background: rgba(20, 33, 61, 0.7);
-  bottom: 0%;
-  position: relative;
 }
 
 .footertask p{
@@ -686,6 +684,9 @@ flex-direction: row;
   padding: 0em 3em 0em 3em;
 }
 
+.all{
+  height: 100%;
+}
 
 
 @media screen and (min-width : 450px) and (max-width : 639px){

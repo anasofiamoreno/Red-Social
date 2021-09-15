@@ -5,7 +5,7 @@ export const pages = {
     template:
       `<section class="page_home">
 
-        <p class="subtitle" > <Unete a la comunidad más grande de desarrollador@s!!!> </p>
+        <p class="subtitle" > Unete a la comunidad más grande de desarrollador@s!!! </p>
 
         <div class="home_content_login">
 
@@ -33,7 +33,7 @@ export const pages = {
   home2: {
     path: '/',
     template: `<section class="dateUserHome">
-                <h1 class="tittle_home2"> Bienvenid@ a <Social Dev´s> </h1>
+                <h1 class="tittle_home2"> Bienvenid@ a Social Dev´s </h1>
                 <p class="nameUser"></p>
                 <div><img class="profileimg" src=""></div>
                 <div><input class="btn_profile" type="button" value="Perfil"></div>
