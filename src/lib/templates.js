@@ -76,18 +76,24 @@ export const pages = {
     path: '/login',
     template: `
   <section>
-  <div class="box_singup">
-     <p class="text_register">Datos de registro</p>
-     <div class="linea"> </div>
-     
-     <form id="login_form" class="form" >
-     <input type="email" id="login_email" placeholder="Correo" required>
-     <input type="password" id="login_password" placeholder="Contraseña" required>
-     <div class="lineaform"> </div>
-     <p id="login_error"></p>
-     <button type="submit" class="btnRegistrar">Login</button>
-     <form>
-     </div>
+    <div class="box_singup">
+      <p class="text_register">Datos de registro</p>
+      <div class="linea"> </div>
+      <form id="login_form" class="form" >
+        <input type="email" id="login_email" placeholder="Correo" required>
+        <input type="password" id="login_password" placeholder="Contraseña" required>
+        <div class="lineaform"> </div>
+        <p id="login_error"></p>
+        <button type="submit" class="btnRegistrar">Login</button>
+      <form>
+    </div>
+    <div>
+      <p class="home_text_01">¿Aun no tienes cuenta?</p>
+      <div class="home_text_02" id="id_home_text_registro">
+        <p class=".btnMenuReg">Registrate</p>
+        <p id="loginErrorGoogle"></p>
+      </div>
+    </div>
     
   </section>
   `,
