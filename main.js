@@ -46,11 +46,7 @@ async function fnSignUp(e) {
       firebase.firestore().collection(users.uid).doc('userPost').set({});
       window.history.pushState({}, '', pages.home2.path);
 
-      fetch("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
-        .then((res) => res.blob()) // Gets the response and returns it as a blob
-        .then((blob) => {
-          firebase.storage().ref(users.uid + '/profileimg.jpg').put(blob);
-        });
+      
 
       router();
     } else {
@@ -130,6 +126,8 @@ async function router() {
           router();
         }
       });
+      const objBotonSingup = document.getElementById('id_home_text_registro');
+        objBotonSingup.addEventListener('click', () => { fnPageSignUp(); router(); });
       break;
     case '/profile':
       if (userState) {
