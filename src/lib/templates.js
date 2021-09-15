@@ -5,7 +5,7 @@ export const pages = {
     template:
       `<section class="page_home">
 
-        <p class="subtitle" > Unete a la comunidad más grande de desarrolladores!!! </p>
+        <p class="subtitle" > <Unete a la comunidad más grande de desarrollador@s!!!> </p>
 
         <div class="home_content_login">
 
@@ -33,7 +33,7 @@ export const pages = {
   home2: {
     path: '/',
     template: `<section class="dateUserHome">
-                <h1 class="tittle_home2"> Bienvenido a Social </h1>
+                <h1 class="tittle_home2"> Bienvenid@ a <Social Dev´s> </h1>
                 <p class="nameUser"></p>
                 <div><img class="profileimg" src=""></div>
                 <div><input class="btn_profile" type="button" value="Perfil"></div>
@@ -201,12 +201,12 @@ export const pages = {
       </div>
       <div class="box_post_btn">
           <div style="display:flex; flex-direction:row;">
-            <img id ="like`+idPost+`" value="" type="button" class="menu_btn_text evente_like" src="./img/likeicon.png">
+            <img id ="like`+idPost+`" value="" type="button" class="menu_btn_text evente_like" src="https://github.com/anasofiamoreno/Red-Social/blob/gh-pages/img/likeicon.png?raw=true">
             <p id ="contlike`+idPost+`" class="menu_btn_text"></p>
           </div>
-          <img class="menu_btn_text" id="share_post`+idPost+`" src="./img/shericon2.png">
-          <img class="menu_btn_text event_comment" id="make_comment_on_post`+idPost+`"  src="./img/coment.png">
-          <img class="menu_btn_text show_menu" id="menu_options`+idPost+`"  src="./img/menuicon2.png">
+          <img class="menu_btn_text" id="share_post`+idPost+`" src="https://github.com/anasofiamoreno/Red-Social/blob/gh-pages/img/shericon2.png?raw=true">
+          <img class="menu_btn_text event_comment" id="make_comment_on_post`+idPost+`"  src="https://github.com/anasofiamoreno/Red-Social/blob/gh-pages/img/coment.png?raw=true">
+          <img class="menu_btn_text show_menu" id="menu_options`+idPost+`"  src="https://github.com/anasofiamoreno/Red-Social/blob/gh-pages/img/menuicon2.png?raw=true">
 
           
             

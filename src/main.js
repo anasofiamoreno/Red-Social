@@ -39,7 +39,7 @@ async function fnSignUp(e) {
   if (signUpPassword1 === signUpPassword2) {
     const message = await sendSingUp(signUpEmail, signUpPassword1);
     if (firebase.auth().currentUser) {
-      users = message;
+      const users = message;
       writeFareBase(users.uid, 'namefirst', singUpName);
       writeFareBase(users.uid, 'city', "");
       writeFareBase(users.uid, 'work', "");
@@ -91,7 +91,7 @@ window.onpopstate = () => { //Evento cambio de pagina en navegado y autenticacio
 async function router() {
 
   switch (window.location.pathname) {
-    case '/':
+    case '/Red-Social':
       if (userState.uid) {
         const info = await readfirebase(userState.uid, 'name');
         const img = await readfirebase(userState.uid, 'img');
@@ -159,7 +159,7 @@ async function router() {
       }
       break;
     default:
-      window.history.pushState({}, '', '/');
+      window.history.pushState({}, '', '/Red-Social');
       router();
       break;
   }

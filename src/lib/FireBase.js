@@ -35,7 +35,9 @@ export function fnLogOutFb() {
 
 export function sendLoginGoogle(provider) {
   return firebase.auth().signInWithPopup(provider)
-    .then((result) => 'Se realizo logeo con cuenta de google')
+    .then((result) => {
+      writeFareBase(result.user.uid, 'namefirst', result.user.displayName)
+    })
     .catch((error) => 'Hubo un error en cuanta de google');
 }
 
@@ -52,11 +54,17 @@ export function writeFareBase(idUser, type, data) {
 
     });
     firebase.firestore().collection(idUser).doc("userPost").set({
-      post: "",
     });
     firebase.firestore().collection('userList').doc('list').update({
       [idUser]: idUser,
     });
+
+    fetch("https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png")
+      .then((res) => res.blob()) // Gets the response and returns it as a blob
+      .then((blob) => {
+        firebase.storage().ref(idUser + '/profileimg.jpg').put(blob);
+      });
+
       break;
     case 'name': return firebase.firestore().collection(idUser).doc('userInfo').update({
       name: data,
