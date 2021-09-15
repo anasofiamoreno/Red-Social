@@ -672,10 +672,13 @@ flex-direction: row;
   padding: .5em 0em .5em 0em;
   width: 100%;
   background: rgba(20, 33, 61, 0.7);
+  bottom: 0%;
+  position: relative;
 }
 
 .footertask p{
   padding: 0em 2em 0em 2em;
+  
 }
 
 #publish_comment_profile{
