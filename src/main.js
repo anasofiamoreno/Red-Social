@@ -1,10 +1,10 @@
 import { pages } from './lib/templates.js';
 import {
   objMain, fnPageSignUp, fnLogin, fnAuthGoogle,
-} from './lib/FnLogics.js';
+} from './lib/fnLogics.js';
 import {
   sendSingUp, sendLoginGoogle, fnLogOutFb, writeFareBase, readfirebase, fillPosted, getUsersFireBase, fnMakeLike,
-} from './lib/FireBase.js';
+} from './lib/fireBase.js';
 
 
 
