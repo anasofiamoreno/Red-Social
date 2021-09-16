@@ -17,7 +17,8 @@
     "test": "jest --coverage --watch",
     "start": "serve -s src/",
     "homepage": "https://anasofiamoreno.github.io/CDMX011-social-network/",
-    "deploy": "gh-pages -d src"
+    "deploy": "gh-pages -d src",
+    "testing": "jest --watch"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",

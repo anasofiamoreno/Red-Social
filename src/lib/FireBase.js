@@ -180,7 +180,58 @@ export function getUsersFireBase() {
 export function fnMakeLike(userToGetLike, userToSetLike, post){  //--Funcion para dar like a publicacion
   
   const refToSetLike = [post.slice(4)] + '.likes.' + userToSetLike;
+  
   let likes = 0;
+
+  return firebase.firestore().collection(userToGetLike).doc('userPost').get()
+  .then((ss) => {
+
+    if(ss.data()[post.slice(4)].likes[userToSetLike]){
+      return firebase.firestore().collection(userToGetLike).doc('userPost').update({
+       [refToSetLike] : firebase.firestore.FieldValue.delete(),
+      }).then(() => {
+        return firebase.firestore().collection(userToGetLike).doc('userPost').get()
+        .then((doc) => {
+          Object.values(doc.data()[post.slice(4)].likes).map(function (counlikes){
+            likes += counlikes;
+          });
+          return likes
+          
+        });
+      });
+      
+    }
+    else{
+      return firebase.firestore().collection(userToGetLike).doc('userPost').update({
+        [refToSetLike] : 1,
+      })
+      .then(() => {
+    
+        return firebase.firestore().collection(userToGetLike).doc('userPost').get()
+        .then((doc) => {
+          Object.values(doc.data()[post.slice(4)].likes).map(function (counlikes){
+            likes += counlikes;
+          });
+          return likes
+          
+        });
+    
+    
+      });
+    };
+
+  });
+
+  
+
+}
+
+export function fnMakeLike2(userToGetLike, userToSetLike, post){  //--Funcion para dar like a publicacion
+  
+  const refToSetLike = [post.slice(4)] + '.likes.' + userToSetLike;
+  let likes = 0;
+
+  
 
   return firebase.firestore().collection(userToGetLike).doc('userPost').update({
     [refToSetLike] : 1,
